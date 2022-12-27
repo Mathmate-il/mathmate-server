@@ -11,28 +11,42 @@ datasource db {
 }
 
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
   id      Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
   email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  name    String
+
+  comments Comment[]
+  questions Question[]
+  
+  @@map("users")
+}
+
+model Question {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  title String
+  question String
+
+  ownerId Int
+  owner User @relation(fields: [ownerId], references: [id])
+
+  comments Comment[]
+
+   @@map("questions")
+}
+
+
+model Comment {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  ownerId Int
+  owner User @relation(fields: [ownerId], references: [id])
+
+  questionId Int
+  relatedQuestion Question @relation(fields: [questionId], references: [id])
+  isChosen Boolean @default(false)
+
+  @@map("comments")
 }
