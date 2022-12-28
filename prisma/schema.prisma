@@ -10,7 +10,6 @@ datasource db {
   url      = "postgresql://postgres:21780Amit@localhost:5432/math-overflow"
 }
 
-
 model User {
   id      Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -36,7 +35,6 @@ model Question {
 
    @@map("questions")
 }
-
 
 model Comment {
   id Int @id @default(autoincrement())
