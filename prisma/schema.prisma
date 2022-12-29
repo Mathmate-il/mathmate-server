@@ -39,12 +39,13 @@ model Question {
 model Comment {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
+  isChosen Boolean @default(false)
+
   ownerId Int
   owner User @relation(fields: [ownerId], references: [id])
 
   questionId Int
   relatedQuestion Question @relation(fields: [questionId], references: [id])
-  isChosen Boolean @default(false)
 
   @@map("comments")
 }
