@@ -1,5 +1,5 @@
 import { OAuth2Client } from 'google-auth-library';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 const client = new OAuth2Client(
@@ -22,6 +22,10 @@ export class AuthService {
         userData: { email, name },
         message: 'success',
       };
-    } catch (error) {}
+    } catch (error) {
+      throw new BadRequestException('Bad-Request', {
+        description: error,
+      });
+    }
   }
 }
