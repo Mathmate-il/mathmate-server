@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
+  id      String      @id @default(uuid())
   createdAt DateTime @default(now())
   email   String   @unique
   name    String
@@ -23,12 +23,12 @@ model User {
 }
 
 model Question {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
   title String
   question String
 
-  ownerId Int
+  ownerId String
   owner User @relation(fields: [ownerId], references: [id])
 
   comments Comment[]
@@ -37,14 +37,14 @@ model Question {
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
   isChosen Boolean @default(false)
 
-  ownerId Int
+  ownerId String
   owner User @relation(fields: [ownerId], references: [id])
 
-  questionId Int
+  questionId String
   relatedQuestion Question @relation(fields: [questionId], references: [id])
 
   @@map("comments")
