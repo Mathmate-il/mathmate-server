@@ -40,6 +40,8 @@ model Comment {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   isChosen Boolean @default(false)
+  comment String
+
 
   ownerId String
   owner User @relation(fields: [ownerId], references: [id])
