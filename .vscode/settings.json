@@ -1,4 +1,4 @@
 {
   "prisma.fileWatcher": true,
-  "cSpell.words": ["nestjs"]
+  "cSpell.words": ["datasources", "nestjs"]
 }
