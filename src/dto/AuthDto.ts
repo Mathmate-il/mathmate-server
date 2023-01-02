@@ -1,7 +1,12 @@
 import { Exclude } from 'class-transformer';
-import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { AbstractDto } from './AbstractDto';
 
-export class AuthDto {
+export class AuthDto extends AbstractDto {
+  constructor(input: AuthDto) {
+    super(input);
+  }
+
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -9,11 +14,4 @@ export class AuthDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-
-  @IsNotEmpty()
-  id?: string;
-
-  @IsDate()
-  @IsNotEmpty()
-  createdAt?: Date;
 }

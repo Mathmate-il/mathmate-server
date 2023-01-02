@@ -18,13 +18,15 @@ export class AuthService {
         idToken: oAuthToken,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
+
       const { email, name } = ticket.getPayload();
-      const user: AuthDto = await this.prisma.user.create({
+      const userDto = new AuthDto({ email, name });
+      const user = await this.prisma.user.create({
         data: {
-          name,
-          email,
+          ...userDto,
         },
       });
+
       return user;
     } catch (error) {
       throw new ForbiddenException('user already exists');
