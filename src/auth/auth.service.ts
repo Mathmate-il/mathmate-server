@@ -1,5 +1,6 @@
+import { AuthDto } from './../dto/AuthDto';
 import { OAuth2Client } from 'google-auth-library';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 const client = new OAuth2Client(
@@ -18,14 +19,21 @@ export class AuthService {
         audience: process.env.GOOGLE_CLIENT_ID,
       });
       const { email, name } = ticket.getPayload();
+
+      const user: AuthDto = await this.prisma.user.create({
+        data: {
+          name,
+          email,
+        },
+      });
+      const { name: userName, email: userEmail } = user;
       return {
-        userData: { email, name },
-        message: 'success',
+        userName,
+        userEmail,
+        message: 'user created',
       };
     } catch (error) {
-      throw new BadRequestException('Bad-Request', {
-        description: error,
-      });
+      throw new ForbiddenException('user already exists');
     }
   }
 }
