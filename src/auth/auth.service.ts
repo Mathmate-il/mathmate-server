@@ -24,6 +24,7 @@ export class AuthService {
       };
     } catch (error) {
       throw new BadRequestException('Bad-Request', {
+        cause: new Error(),
         description: error,
       });
     }
