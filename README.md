@@ -22,7 +22,7 @@
   - Create a database in your pgadmin4 -> **NEED TO INSERT A VIDEO HERE!!!**
   - Download vsCode Prisma extension here [Link](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
   - Create a user in OAuth2 google and create a connection -> **NEED TO INSERT A VIDEO HERE!!!**
-  - Update the .env with your credentials and DATBASE_URL, look at `src/auth/auth.service` for the names.
+  - Update the .env with your credentials and DATABASE_URL, look at `src/auth/auth.service` for the names.
   - Run `prisma migrate dev` this will migrate the Prisma schemas into you local DB.
 - Workflow <a name="rules"></a>
   - Connect in the discord channel to your relevant team (FE\BE\QA\UX-UI)
