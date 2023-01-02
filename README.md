@@ -40,7 +40,7 @@
 
 ## How to contribute
 
-## Clone & Install <a name="clone"></a>
+### Clone & Install <a name="clone"></a>
 
 - Make sure you have node v16.13.1 and npm 8.1.2 (Or above)
 - Fork the repo to your github  
@@ -94,6 +94,8 @@
 
 ## Where to find us
 
-- [Discord channel](https://discord.gg/ysffT6BpX7)
+[Discord channel](https://discord.gg/ysffT6BpX7)
 
 ## License
+
+This repository is [MIT Licensed](https://github.com/MathOverflow-IL/MathOverflow/blob/main/LICENCE)
