@@ -18,7 +18,6 @@ export class AuthService {
         idToken: oAuthToken,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
-
       const { email, name } = ticket.getPayload();
       const userDto = new AuthDto({ email, name });
       const user = await this.prisma.user.create({
