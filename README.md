@@ -16,7 +16,7 @@
 
 ## Our vision
 
-**Our mission is to make math accessible, practicle and fun, by utilizing the power of cummunity and collaboration.**
+**Our mission is to make math accessible, practice and fun, by utilizing the power of community and collaboration.**
 
 ---
 
@@ -24,7 +24,7 @@
 
 **Stage 1:**
 
-- Cummunity based forum where anyone can ask math-related questions using a well suted interface.
+- Community based forum where anyone can ask math-related questions using a well suited interface.
 - Implementing tagging system
 
 **Stage 2:**
@@ -71,9 +71,9 @@
 ### Conventions <a name="conventions"></a>
 
 - Create functions as global as possible (Generic, reusable)
-- Readable and descrptive names to your functions and variables (Dont use "and", function is single tasked)
+- Readable and descriptive names to your functions and variables (Don't use "and", function is single tasked)
 - A function name must start with a verb. (create, handle, delete, update, check, etc.)
-- Variable must be a nouns, dont use acronyms! (dont: cds, uss, ion <----> do: cards, users, isOpen)
+- Variable must be a nouns, don't use acronyms! (don't: cds, uss, ion <----> do: cards, users, isOpen)
 - We already implemented pre-commit linting using husky, here is the allowed conventions,
   the syntax for your commits will be the following: `git commit -am "type: message"`
   All the allowed types:
