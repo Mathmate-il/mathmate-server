@@ -4,33 +4,32 @@
 
 ## Table of contents
 
-[Example](#example)
+1. [Clone](#clone)
+2. [Setup](#setup)
+3. [Rules](#rules)
 
-**Overview**
+## Our vision
+
+## Project overview
 
 ## How to contribute
 
-# Table of contents
+- Clone & Install <a name="clone"></a>
+  - `git clone https://github.com/MathOverflow-IL/MathOverflow.git`
+  - `npm run install`
+- Setup <a name="setup"></a>
+  - Install postgreSQL **v15** with **pgadmin4** --- **Make sure you remember the password !**
+  - Create a database in your pgadmin4 -> **NEED TO INSERT A VIDEO HERE!!!**
+  - Download vsCode Prisma extension here [Link](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
+  - Create a user in OAuth2 google and create a connection -> **NEED TO INSERT A VIDEO HERE!!!**
+  - Update the .env with your credentials and DATBASE_URL, look at `src/auth/auth.service` for the names.
+  - Run `prisma migrate dev` this will migrate the Prisma schemas into you local DB.
+- Workflow <a name="rules"></a>
+  - Connect in the discord channel to your relevant team (FE\BE\QA\UX-UI)
+  -
 
-1. [Introduction](#introduction)
-2. [Some paragraph](#paragraph1)
-   1. [Sub paragraph](#subparagraph1)
-3. [Another paragraph](#paragraph2)
+## Where to find us
 
-## This is the introduction <a name="introduction"></a>
+- [Discord channel](https://discord.gg/ysffT6BpX7)
 
-Some introduction text, formatted in heading 2 style
-
-## Some paragraph <a name="paragraph1"></a>
-
-The first paragraph text
-
-### Sub paragraph <a name="subparagraph1"></a>
-
-This is a sub paragraph, formatted in heading 3 style
-
-## Another paragraph <a name="paragraph2"></a>
-
-The second paragraph text
-
-## Rules
+## License
