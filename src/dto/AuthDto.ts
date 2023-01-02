@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
+import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class AuthDto {
   @IsEmail()
@@ -9,6 +10,10 @@ export class AuthDto {
   @IsNotEmpty()
   name: string;
 
-  // @Exclude
-  // id: string;
+  @IsNotEmpty()
+  id?: string;
+
+  @IsDate()
+  @IsNotEmpty()
+  createdAt?: Date;
 }
