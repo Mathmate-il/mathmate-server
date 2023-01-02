@@ -2,7 +2,6 @@ import { AuthDto } from './../dto/AuthDto';
 import { OAuth2Client } from 'google-auth-library';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { exclude } from 'src/helpers/prisma.helpers';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -26,7 +25,7 @@ export class AuthService {
           email,
         },
       });
-      return exclude(user, ['id', 'createdAt']);
+      return user;
     } catch (error) {
       throw new ForbiddenException('user already exists');
     }
