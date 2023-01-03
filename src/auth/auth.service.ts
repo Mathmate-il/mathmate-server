@@ -23,14 +23,20 @@ export class AuthService {
     try {
       const { email, name } = await this.googleAuth(oAuthToken);
       const userDto = new AuthDto({ email, name });
-      const user = await this.prisma.user.create({
-        data: {
-          ...userDto,
-        },
+      const userExist = await this.prisma.user.findUnique({
+        where: { email },
       });
-      return this.signToken(user.id, user.email);
+      if (!userExist) {
+        const user = await this.prisma.user.create({
+          data: {
+            ...userDto,
+          },
+        });
+        return this.signToken(user.id, user.email);
+      }
+      return this.signToken(userExist.id, userExist.email);
     } catch (error) {
-      throw new UnauthorizedException('User already exists');
+      throw new UnauthorizedException('Unauthenticated');
     }
   }
 
