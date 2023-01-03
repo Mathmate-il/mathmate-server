@@ -1,7 +1,10 @@
+import { ConfigService } from '@nestjs/config';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { AuthDto } from './../dto/AuthDto';
 import { OAuth2Client } from 'google-auth-library';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -10,7 +13,11 @@ const client = new OAuth2Client(
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private config: ConfigService,
+    private jwt: JwtService,
+  ) {}
 
   async signUp(oAuthToken: string) {
     try {
@@ -21,13 +28,13 @@ export class AuthService {
           ...userDto,
         },
       });
-      return user;
+      return this.signToken(user.id, user.email);
     } catch (error) {
       throw new UnauthorizedException('User already exists');
     }
   }
 
-  async googleAuth(oAuthToken: string) {
+  private async googleAuth(oAuthToken: string) {
     try {
       const ticket = await client.verifyIdToken({
         idToken: oAuthToken,
@@ -35,9 +42,24 @@ export class AuthService {
       });
       return ticket.getPayload();
     } catch (error) {
-      throw new UnauthorizedException('Google did not found a user');
+      throw new NotFoundException('Google did not found a user');
     }
   }
 
-  async authenticateUser() {}
+  private async signToken(
+    userId: string,
+    email: string,
+  ): Promise<{ token: string }> {
+    const payload = {
+      id: userId,
+      email,
+    };
+
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '24h',
+      secret: this.config.get('JWT_SECRET'),
+    });
+
+    return { token };
+  }
 }
