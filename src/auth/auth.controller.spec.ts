@@ -1,3 +1,4 @@
+import { unauthorizedResponse } from './utils/auth.test.responses';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { JwtService } from '@nestjs/jwt';
@@ -32,11 +33,7 @@ describe('AuthController', () => {
         .post('/auth/signup')
         .send({ token: 'some random value' })
         .expect(401)
-        .expect({
-          statusCode: 401,
-          message: 'Unauthenticated',
-          error: 'Unauthorized',
-        });
+        .expect(unauthorizedResponse);
     });
   });
 });
