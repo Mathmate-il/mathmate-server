@@ -14,7 +14,7 @@ const client = new OAuth2Client(
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
+    private prismaService: PrismaService,
     private config: ConfigService,
     private jwt: JwtService,
   ) {}
@@ -23,15 +23,16 @@ export class AuthService {
     try {
       const { email, name } = await this.googleAuth(oAuthToken);
       const userDto = new AuthDto({ email, name });
-      const userExist = await this.prisma.user.findUnique({
+      const userExist = await this.prismaService.user.findUnique({
         where: { email },
       });
       if (!userExist) {
-        const user = await this.prisma.user.create({
+        const user = await this.prismaService.user.create({
           data: {
             ...userDto,
           },
         });
+
         return this.signToken(user.id, user.email);
       }
       return this.signToken(userExist.id, userExist.email);
