@@ -94,6 +94,8 @@
 
 ## Where to find us
 
+## Where to find us
+
 [Discord channel](https://discord.gg/ysffT6BpX7)
 
 ## License
