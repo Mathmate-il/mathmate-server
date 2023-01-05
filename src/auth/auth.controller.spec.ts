@@ -25,10 +25,18 @@ describe('AuthController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-  it('Create user', () => {
-    const res = request(app.getHttpServer)
-      .post('/auth/signup')
-      .send({ token: 'fsdfs' });
-    console.log(res);
+
+  describe('Google and JWT authentication', () => {
+    it('should return 401 with Unauthorized message for /auth/signup ', () => {
+      return request(app.getHttpServer())
+        .post('/auth/signup')
+        .send({ token: 'some random value' })
+        .expect(401)
+        .expect({
+          statusCode: 401,
+          message: 'Unauthenticated',
+          error: 'Unauthorized',
+        });
+    });
   });
 });
