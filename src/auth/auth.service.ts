@@ -33,9 +33,9 @@ export class AuthService {
           },
         });
 
-        return this.signToken(user.id, user.email);
+        return this.signToken(user.id);
       }
-      return this.signToken(userExist.id, userExist.email);
+      return this.signToken(userExist.id);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
     }
@@ -53,15 +53,10 @@ export class AuthService {
     }
   }
 
-  private async signToken(
-    userId: string,
-    email: string,
-  ): Promise<{ token: string }> {
+  private async signToken(userId: string): Promise<{ token: string }> {
     const payload = {
       id: userId,
-      email,
     };
-
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
       secret: this.config.get('JWT_SECRET'),

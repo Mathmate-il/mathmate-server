@@ -31,7 +31,7 @@ describe('AuthController', () => {
     it('should return 401 with Unauthorized message for /auth/signup ', () => {
       return request(app.getHttpServer())
         .post('/auth/signup')
-        .send({ token: 'some random value' })
+        .send({ oAuthToken: 'some random value' })
         .expect(401)
         .expect(unauthorizedResponse);
     });
