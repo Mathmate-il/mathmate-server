@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { AbstractDto } from './AbstractDto';
+import { AbstractDto } from '../../abstractClasses/AbstractDto';
 
 export class AuthDto extends AbstractDto {
   constructor(input: AuthDto) {
