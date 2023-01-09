@@ -15,11 +15,9 @@ model User {
   createdAt DateTime @default(now())
   email   String   @unique
   name    String 
-
-  comments Comment[]
-  questions Question[]
-  
-
+  answers Answer[]
+  questions Question[] @relation("question")
+  bookmarks Question[] @relation("UsersAndBookmarks")
 }
 
 model Question {
@@ -28,34 +26,28 @@ model Question {
   title String
   question String
   rate Int @default(0)
-
   ownerId String
-  owner User @relation(fields: [ownerId], references: [id])
+  owner User @relation(name: "question",fields: [ownerId], references: [id])
+  answers Answer[]
+  bookedMarkedBy User[] @relation("UsersAndBookmarks")
+  tags Tag[] @relation("QuestionsAndTags")
 
-  comments Comment[]
-  tags Tag[]
-
-   
 }
 
-model Comment {
+model Answer {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   isChosen Boolean @default(false)
-  comment String
-
-
+  rate Int @default(0)
+  answer String
   ownerId String
   owner User @relation(fields: [ownerId], references: [id])
-
   questionId String
   relatedQuestion Question @relation(fields: [questionId], references: [id])
-
-  
 }
 
 model Tag{
   id String @id @default(uuid())
   tagName String 
-  relatedQuestions Question[]
+  relatedQuestions Question[] @relation("QuestionsAndTags")
 }
