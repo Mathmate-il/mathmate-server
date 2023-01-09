@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../DAL/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 
 const client = new OAuth2Client(

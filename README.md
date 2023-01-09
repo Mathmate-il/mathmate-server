@@ -16,7 +16,7 @@
 
 ## Our vision
 
-**Our mission is to make math accessible, practice and fun, by utilizing the power of community and collaboration.**
+**Our mission is to make math accessible, practical and fun, by utilizing the power of community and collaboration.**
 
 ---
 

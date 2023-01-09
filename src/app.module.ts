@@ -1,4 +1,4 @@
-import { PrismaModule } from './prisma/prisma.module';
+import { PrismaModule } from './DAL/prisma/prisma.module';
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
