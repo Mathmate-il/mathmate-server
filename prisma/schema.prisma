@@ -11,40 +11,43 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
+  id      String       @id @default(uuid()) 
   createdAt DateTime @default(now())
   email   String   @unique
-  name    String
-
-  comments Comment[]
-  questions Question[]
-  
-  @@map("users")
+  name    String 
+  answers Answer[]
+  questions Question[] @relation("question")
+  bookmarks Question[] @relation("UsersAndBookmarks")
 }
 
 model Question {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
   title String
   question String
+  rate Int @default(0)
+  ownerId String
+  owner User @relation(name: "question",fields: [ownerId], references: [id])
+  answers Answer[]
+  bookedMarkedBy User[] @relation("UsersAndBookmarks")
+  tags Tag[] @relation("QuestionsAndTags")
 
-  ownerId Int
-  owner User @relation(fields: [ownerId], references: [id])
-
-  comments Comment[]
-
-   @@map("questions")
 }
 
-model Comment {
-  id Int @id @default(autoincrement())
+model Answer {
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
-  ownerId Int
-  owner User @relation(fields: [ownerId], references: [id])
-
-  questionId Int
-  relatedQuestion Question @relation(fields: [questionId], references: [id])
   isChosen Boolean @default(false)
+  rate Int @default(0)
+  answer String
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id])
+  questionId String
+  relatedQuestion Question @relation(fields: [questionId], references: [id])
+}
 
-  @@map("comments")
+model Tag{
+  id String @id @default(uuid())
+  tagName String 
+  relatedQuestions Question[] @relation("QuestionsAndTags")
 }

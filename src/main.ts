@@ -1,8 +1,14 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  const config = new ConfigService();
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.enableCors({
+    origin: config.get('LOCALHOST'),
+  });
+  await app.listen(3001);
 }
+
 bootstrap();
