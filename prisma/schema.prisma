@@ -11,40 +11,51 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
+  id      String       @id @default(uuid()) 
   createdAt DateTime @default(now())
   email   String   @unique
-  name    String
+  name    String 
 
   comments Comment[]
   questions Question[]
   
-  @@map("users")
+
 }
 
 model Question {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
   title String
   question String
+  rate Int @default(0)
 
-  ownerId Int
+  ownerId String
   owner User @relation(fields: [ownerId], references: [id])
 
   comments Comment[]
+  tags Tag[]
 
-   @@map("questions")
+   
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   createdAt DateTime @default(now())
-  ownerId Int
+  isChosen Boolean @default(false)
+  comment String
+
+
+  ownerId String
   owner User @relation(fields: [ownerId], references: [id])
 
-  questionId Int
+  questionId String
   relatedQuestion Question @relation(fields: [questionId], references: [id])
-  isChosen Boolean @default(false)
 
-  @@map("comments")
+  
+}
+
+model Tag{
+  id String @id @default(uuid())
+  tagName String 
+  relatedQuestions Question[]
 }
