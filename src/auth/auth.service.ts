@@ -32,7 +32,6 @@ export class AuthService {
             ...userDto,
           },
         });
-
         return this.signToken(user.id);
       }
       return this.signToken(userExist.id);

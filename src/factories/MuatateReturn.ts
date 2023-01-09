@@ -1,6 +1,4 @@
-import { PrismaService } from '../prisma/prisma.service';
-
-export class MutateReturn extends PrismaService {
+export class MutateReturn {
   /**
    * PrismaService function for filtering the returned values from a query
    * @param  {Object} object The object you want to be returned

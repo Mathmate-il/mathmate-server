@@ -1,2 +1,2 @@
-export * from '../../abstractClasses/AbstractDto';
+export * from '../../factories/AbstractDto';
 export * from './AuthDto';
