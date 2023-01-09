@@ -8,12 +8,12 @@ export class AuthController {
 
   @Post('signup')
   async signUp(@Body('token') oAuthToken: string): Promise<unknown> {
-    return await this.authService.signUp(oAuthToken);
+    return await this.authService.auth(oAuthToken);
   }
 
   @HttpCode(200)
   @Post('signin')
   async signin(@Body('token') oAuthToken: string): Promise<unknown> {
-    return await this.authService.signUp(oAuthToken);
+    return await this.authService.auth(oAuthToken);
   }
 }

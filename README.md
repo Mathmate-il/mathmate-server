@@ -1,4 +1,4 @@
-# MathOverflow
+# Mathmate
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ![node](https://img.shields.io/badge/node-16.13.1-green)
@@ -44,7 +44,7 @@
 
 - Make sure you have node v16.13.1 and npm 8.1.2 (Or above)
 - Fork the repo to your github  
-  `git clone https://github.com/MathOverflow-IL/MathOverflow.git`
+  `git clone https://github.com/Mathmate-il/Mathmate-server.git`
   `npm install`
 
 ---
@@ -98,4 +98,4 @@
 
 ## License
 
-This repository is [MIT Licensed](https://github.com/MathOverflow-IL/MathOverflow/blob/main/LICENCE)
+This repository is [MIT Licensed](https://github.com/Mathmate-il/Mathmate-server/blob/main/LICENCE)

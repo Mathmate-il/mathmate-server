@@ -19,7 +19,7 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
 
-  async signUp(oAuthToken: string) {
+  async auth(oAuthToken: string) {
     try {
       const { email, name } = await this.googleAuth(oAuthToken);
       const userDto = new AuthDto({ email, name });
