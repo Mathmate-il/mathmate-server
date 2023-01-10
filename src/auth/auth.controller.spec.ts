@@ -2,12 +2,11 @@ import { unauthorizedResponse } from './utils/auth.test.responses';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../DAL/prisma/prisma.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { AppConfigService } from '../config/config.service';
-import { AppConfigModule } from '../config/config.module';
+import { AppConfigModule } from './config/config.module';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -16,7 +15,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppConfigModule],
-      providers: [AuthService, PrismaService, AppConfigService, JwtService],
+      providers: [AuthService, PrismaService, JwtService],
       controllers: [AuthController],
     }).compile();
 

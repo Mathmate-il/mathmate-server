@@ -1,15 +1,14 @@
-import { AuthDto } from './dto/AuthDto';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '../DAL/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import { AppConfigService } from '../config/config.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { AppConfigService } from './config/config.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prismaService: PrismaService,
+    private readonly prisma: PrismaService,
     private readonly config: AppConfigService,
     private readonly jwt: JwtService,
   ) {
@@ -24,14 +23,14 @@ export class AuthService {
   async auth(oAuthToken: string) {
     try {
       const { email, name } = await this.googleAuth(oAuthToken);
-      const userDto = new AuthDto({ email, name });
-      const userExist = await this.prismaService.user.findUnique({
+      const userExist = await this.prisma.user.findUnique({
         where: { email },
       });
       if (!userExist) {
-        const user = await this.prismaService.user.create({
+        const user = await this.prisma.user.create({
           data: {
-            ...userDto,
+            email,
+            name
           },
         });
         return this.signToken(user.id);
