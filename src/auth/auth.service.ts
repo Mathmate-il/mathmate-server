@@ -1,23 +1,25 @@
 import { AuthDto } from './dto/AuthDto';
-import { ConfigService } from '@nestjs/config';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../DAL/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-
-const client = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-);
+import { AppConfigService } from './config/config.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
-    private config: ConfigService,
-    private jwt: JwtService,
-  ) {}
+    private readonly prismaService: PrismaService,
+    private readonly config: AppConfigService,
+    private readonly jwt: JwtService,
+  ) {
+    this.oAuthClient = new OAuth2Client(
+      this.config.getConfig().google.clientId,
+      this.config.getConfig().google.clientSecret,
+    );
+  }
+
+  private oAuthClient: OAuth2Client;
 
   async auth(oAuthToken: string) {
     try {
@@ -42,7 +44,7 @@ export class AuthService {
 
   private async googleAuth(oAuthToken: string) {
     try {
-      const ticket = await client.verifyIdToken({
+      const ticket = await this.oAuthClient.verifyIdToken({
         idToken: oAuthToken,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
@@ -58,7 +60,7 @@ export class AuthService {
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
-      secret: this.config.get('JWT_SECRET'),
+      secret: this.config.getConfig().jwt.secret,
     });
 
     return { token };
