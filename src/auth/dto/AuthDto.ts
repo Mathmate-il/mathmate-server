@@ -1,11 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { AbstractDto } from '../../factories/AbstractDto';
 
-export class AuthDto extends AbstractDto {
-  constructor(input: AuthDto) {
-    super(input);
-  }
-
+export class AuthDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
