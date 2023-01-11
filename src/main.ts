@@ -1,13 +1,17 @@
-import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { AppConfigService } from './config/config.service';
 
 async function bootstrap() {
-  const config = new ConfigService();
   const app = await NestFactory.create(AppModule);
+  const config = app.get(AppConfigService);
   app.enableCors({
-    origin: config.get('LOCALHOST'),
+    origin: config.getConfig().app.cors.origin,
   });
+  app.useGlobalPipes(new ValidationPipe());
+  app.use(helmet());
   await app.listen(3001);
 }
 

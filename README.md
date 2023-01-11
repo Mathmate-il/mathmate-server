@@ -96,6 +96,12 @@
 
 [Discord channel](https://discord.gg/ysffT6BpX7)
 
+## Our contributors
+
+<a href = "https://github.com/Mathmate-il/Mathmate-server/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo = GitHub_username/repository_name"/>
+</a>
+
 ## License
 
 This repository is [MIT Licensed](https://github.com/Mathmate-il/Mathmate-server/blob/main/LICENCE)

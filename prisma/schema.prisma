@@ -11,43 +11,43 @@ datasource db {
 }
 
 model User {
-  id      String       @id @default(uuid()) 
-  createdAt DateTime @default(now())
-  email   String   @unique
-  name    String 
-  answers Answer[]
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  email     String     @unique
+  name      String
+  image     String?
+  answers   Answer[]
   questions Question[] @relation("question")
   bookmarks Question[] @relation("UsersAndBookmarks")
 }
 
 model Question {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  title String
-  question String
-  rate Int @default(0)
-  ownerId String
-  owner User @relation(name: "question",fields: [ownerId], references: [id])
-  answers Answer[]
-  bookedMarkedBy User[] @relation("UsersAndBookmarks")
-  tags Tag[] @relation("QuestionsAndTags")
-
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  title          String
+  question       String
+  rate           Int      @default(0)
+  ownerId        String
+  owner          User     @relation(name: "question", fields: [ownerId], references: [id])
+  answers        Answer[]
+  bookedMarkedBy User[]   @relation("UsersAndBookmarks")
+  tags           Tag[]    @relation("QuestionsAndTags")
 }
 
 model Answer {
-  id String @id @default(uuid())
-  createdAt DateTime @default(now())
-  isChosen Boolean @default(false)
-  rate Int @default(0)
-  answer String
-  ownerId String
-  owner User @relation(fields: [ownerId], references: [id])
-  questionId String
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  isChosen        Boolean  @default(false)
+  rate            Int      @default(0)
+  answer          String
+  ownerId         String
+  owner           User     @relation(fields: [ownerId], references: [id])
+  questionId      String
   relatedQuestion Question @relation(fields: [questionId], references: [id])
 }
 
-model Tag{
-  id String @id @default(uuid())
-  tagName String 
+model Tag {
+  id               String     @id @default(uuid())
+  tagName          String
   relatedQuestions Question[] @relation("QuestionsAndTags")
 }
