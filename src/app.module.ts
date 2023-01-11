@@ -1,4 +1,11 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 import { PrismaModule } from './prisma/prisma.module';
+>>>>>>> 7490b52cc812e903ee32e8b4c9e0ffd6777d660e
+=======
+import { PrismaModule } from './prisma/prisma.module';
+>>>>>>> 7490b52cc812e903ee32e8b4c9e0ffd6777d660e
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
