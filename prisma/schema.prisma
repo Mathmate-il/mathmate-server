@@ -15,6 +15,7 @@ model User {
   createdAt DateTime   @default(now())
   email     String     @unique
   name      String
+  image     String?
   answers   Answer[]
   questions Question[] @relation("question")
   bookmarks Question[] @relation("UsersAndBookmarks")

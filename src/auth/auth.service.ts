@@ -1,9 +1,10 @@
+import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
-import { AppConfigService } from './config/config.service';
+
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
         const user = await this.prisma.user.create({
           data: {
             email,
-            name
+            name,
           },
         });
         return this.signToken(user.id);
