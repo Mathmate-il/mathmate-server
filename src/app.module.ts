@@ -14,5 +14,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
       limit: 100,
     }),
   ],
+import { AppConfigModule } from './auth/config/config.module';
+
+@Module({
+  imports: [AppConfigModule, AuthModule, PrismaModule],
 })
 export class AppModule {}
