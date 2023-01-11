@@ -3,7 +3,7 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ![node](https://img.shields.io/badge/node-16.13.1-green)
 ![npm](https://img.shields.io/badge/npm-8.1.2-green)
-![PRs](https://img.shields.io/badge/PRs-Coming%20soon-orange)
+![PRs](https://img.shields.io/badge/PRs-Welcome-green)
 
 **version: v0.0.1**
 
