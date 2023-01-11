@@ -54,7 +54,7 @@
 - Install postgreSQL **v15** with **pgadmin4** --- **Make sure you remember the password !**
 - Create a database in your pgadmin4 ->[A short youtube tutorial](https://www.youtube.com/watch?v=VHkY2QqW2iE&t=5s)
 - Download vsCode Prisma extension here [Link](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
-- Create a user in OAuth2 google and create a connection -> **NEED TO INSERT A VIDEO HERE!!!**
+- Create a user in OAuth2 google and create a connection -> [How to set up google auth](https://www.youtube.com/watch?v=3dLLVjmH9Nw&list=PLHhHN29St7TV5thp8GI9sRdrm2EZc46wC&index=4)
 - Update the .env with your credentials and DATABASE_URL, look at `src/auth/auth.service` for the names.
 - Run `prisma migrate dev` this will migrate the Prisma schemas into you local DB.
 
