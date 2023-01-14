@@ -1,3 +1,4 @@
+import { UserRepository } from './../repositories/UserRepository';
 import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
@@ -7,14 +8,12 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
   private oAuthClient: OAuth2Client;
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly userRepository: UserRepository,
     private readonly config: AppConfigService,
     private readonly jwt: JwtService,
   ) {
@@ -35,7 +34,9 @@ export class AuthService {
         throw new UnauthorizedException('Unauthorized');
       }
 
-      const user = await this.findUserByUniqueValue({ id: userId });
+      const user = await this.userRepository.findUserByUniqueInput({
+        id: userId,
+      });
       if (user) return user;
 
       throw new NotFoundException('User does not exist');
@@ -47,15 +48,13 @@ export class AuthService {
   public async auth(oAuthToken: string) {
     try {
       const { email, name, sub } = await this.googleAuth(oAuthToken);
-      const user = await this.findUserByUniqueValue({ email: email });
+      const user = await this.userRepository.findUserByUniqueInput({
+        email: email,
+      });
 
       if (!user) {
-        const newUser = await this.prisma.user.create({
-          data: {
-            email,
-            name,
-          },
-        });
+        const newUser = await this.userRepository.createUser({ email, name });
+
         return this.signToken(newUser.id, sub, oAuthToken);
       }
       return this.signToken(user.id, sub, oAuthToken);
@@ -92,22 +91,5 @@ export class AuthService {
     });
 
     return { token };
-  }
-
-  private async findUserByUniqueValue(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: userWhereUniqueInput,
-      });
-
-      if (!user) {
-        throw new NotFoundException();
-      }
-      return user;
-    } catch (error) {
-      throw new BadRequestException('Bad Request');
-    }
   }
 }
