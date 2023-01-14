@@ -13,6 +13,9 @@ export const configFactory: ConfigFactory<{ config: IConfiguration }> = () => {
         url:
           process.env.DATABASE_URL ||
           'postgresql://postgres:postgres@postgres:5432/mathmate?schema=public',
+        docker_url:
+          process.env.DOCKER_DATABASE_URL ||
+          'postgresql://postgres:postgres@postgres:5432/mathmate?schema=public',
       },
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID || 'Enter client id',
@@ -34,6 +37,7 @@ export interface AppConfig {
 
 export interface DatabaseConfig {
   url: string;
+  docker_url: string;
 }
 
 export interface GoogleConfig {
