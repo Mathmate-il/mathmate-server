@@ -8,7 +8,10 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          url: config.getConfig().database.url,
+          url:
+            process.env.DOCKER === 'true'
+              ? config.getConfig().database.docker_url
+              : config.getConfig().database.url,
         },
       },
     });
