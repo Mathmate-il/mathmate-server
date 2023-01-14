@@ -47,6 +47,7 @@ export class AuthService {
         idToken: oAuthToken,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
+      console.log(ticket);
       return ticket.getPayload();
     } catch (error) {
       throw new NotFoundException('Google did not found a user');
