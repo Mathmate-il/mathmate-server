@@ -1,19 +1,14 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { HttpCode } from '@nestjs/common/decorators';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signup')
-  async signUp(@Body('token') oAuthToken: string): Promise<unknown> {
-    return await this.authService.auth(oAuthToken);
-  }
-
-  @HttpCode(200)
-  @Post('signin')
-  async signin(@Body('token') oAuthToken: string): Promise<unknown> {
+  @Post('/login')
+  async auth(@Req() req: Request): Promise<{ token: string }> {
+    const oAuthToken = req.headers['authorization'];
     return await this.authService.auth(oAuthToken);
   }
 }

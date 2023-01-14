@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppConfigModule } from './config.module';
 import { AppConfigService } from './config.service';
 
-describe('ConfigServie', () => {
+describe('ConfigService', () => {
   let service: AppConfigService;
 
   beforeEach(async () => {

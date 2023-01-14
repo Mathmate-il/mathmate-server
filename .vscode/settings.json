@@ -1,4 +1,5 @@
 {
   "prisma.fileWatcher": true,
-  "cSpell.words": ["datasources", "Iauth", "Mathmate", "nestjs", "signin"]
+  "cSpell.words": ["datasources", "Iauth", "Mathmate", "nestjs", "signin"],
+  "editor.fontSize": 15
 }

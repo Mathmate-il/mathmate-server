@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { AppConfigService } from '../auth/config/config.service';
+import { AppConfigService } from '../config/config.service';
 
 @Injectable()
 export class PrismaService extends PrismaClient {
@@ -8,7 +8,10 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          url: config.getConfig().database.url,
+          url:
+            process.env.DOCKER === 'true'
+              ? config.getConfig().database.docker_url
+              : config.getConfig().database.url,
         },
       },
     });

@@ -1,14 +1,19 @@
+import { UserRepository } from './../repositories/UserRepository';
+import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma/prisma.service';
-import { AppConfigService } from './config/config.service';
 
 @Injectable()
 export class AuthService {
+  private oAuthClient: OAuth2Client;
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly userRepository: UserRepository,
     private readonly config: AppConfigService,
     private readonly jwt: JwtService,
   ) {
@@ -18,24 +23,41 @@ export class AuthService {
     );
   }
 
-  private oAuthClient: OAuth2Client;
-
-  async auth(oAuthToken: string) {
+  public async validateUser(
+    userId: string,
+    userGoogleSub: string,
+    oAuthToken: string,
+  ) {
     try {
-      const { email, name } = await this.googleAuth(oAuthToken);
-      const userExist = await this.prisma.user.findUnique({
-        where: { email },
-      });
-      if (!userExist) {
-        const user = await this.prisma.user.create({
-          data: {
-            email,
-            name
-          },
-        });
-        return this.signToken(user.id);
+      const { sub } = await this.googleAuth(oAuthToken);
+      if (sub !== userGoogleSub) {
+        throw new UnauthorizedException('Unauthorized');
       }
-      return this.signToken(userExist.id);
+
+      const user = await this.userRepository.findUserByUniqueInput({
+        id: userId,
+      });
+      if (user) return user;
+
+      throw new NotFoundException('User does not exist');
+    } catch (error) {
+      throw new BadRequestException('Bad request');
+    }
+  }
+
+  public async auth(oAuthToken: string) {
+    try {
+      const { email, name, sub } = await this.googleAuth(oAuthToken);
+      const user = await this.userRepository.findUserByUniqueInput({
+        email: email,
+      });
+
+      if (!user) {
+        const newUser = await this.userRepository.createUser({ email, name });
+        return this.signToken(newUser.id, sub, oAuthToken);
+      }
+
+      return this.signToken(user.id, sub, oAuthToken);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
     }
@@ -53,9 +75,15 @@ export class AuthService {
     }
   }
 
-  private async signToken(userId: string): Promise<{ token: string }> {
+  private async signToken(
+    userId: string,
+    googleSub: string,
+    oAuthToken: string,
+  ): Promise<{ token: string }> {
     const payload = {
       id: userId,
+      googleSub,
+      oAuthToken,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
