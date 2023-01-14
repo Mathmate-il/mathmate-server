@@ -54,9 +54,9 @@ export class AuthService {
 
       if (!user) {
         const newUser = await this.userRepository.createUser({ email, name });
-
         return this.signToken(newUser.id, sub, oAuthToken);
       }
+
       return this.signToken(user.id, sub, oAuthToken);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
