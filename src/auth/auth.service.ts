@@ -1,9 +1,14 @@
 import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -29,22 +34,20 @@ export class AuthService {
       if (sub !== userGoogleSub) {
         throw new UnauthorizedException('Unauthorized');
       }
-      const user = await this.prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-      });
+
+      const user = await this.findUserByUniqueValue({ id: userId });
+
       if (user) return user;
-      throw new UnauthorizedException('Unauthorized');
-    } catch (error) {}
+      throw new NotFoundException('User does not exist');
+    } catch (error) {
+      throw new BadRequestException('Bad request');
+    }
   }
 
   public async auth(oAuthToken: string) {
     try {
       const { email, name, sub } = await this.googleAuth(oAuthToken);
-      const user = await this.prisma.user.findUnique({
-        where: { email },
-      });
+      const user = await this.findUserByUniqueValue({ email: email });
 
       if (!user) {
         const newUser = await this.prisma.user.create({
@@ -55,7 +58,6 @@ export class AuthService {
         });
         return this.signToken(newUser.id, sub, oAuthToken);
       }
-
       return this.signToken(user.id, sub, oAuthToken);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
@@ -90,5 +92,22 @@ export class AuthService {
     });
 
     return { token };
+  }
+
+  private async findUserByUniqueValue(
+    ident: Prisma.UserWhereUniqueInput,
+  ): Promise<User> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: ident,
+      });
+
+      if (!user) {
+        throw new NotFoundException();
+      }
+      return user;
+    } catch (error) {
+      throw new BadRequestException('Bad Request');
+    }
   }
 }
