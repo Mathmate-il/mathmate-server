@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
+  private oAuthClient: OAuth2Client;
   constructor(
     private readonly prisma: PrismaService,
     private readonly config: AppConfigService,
@@ -18,24 +19,44 @@ export class AuthService {
     );
   }
 
-  private oAuthClient: OAuth2Client;
-
-  async auth(oAuthToken: string) {
+  public async validateUser(
+    userId: string,
+    userGoogleSub: string,
+    oAuthToken: string,
+  ) {
     try {
-      const { email, name } = await this.googleAuth(oAuthToken);
-      const userExist = await this.prisma.user.findUnique({
+      const { sub } = await this.googleAuth(oAuthToken);
+      if (sub !== userGoogleSub) {
+        throw new UnauthorizedException('Unauthorized');
+      }
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+      if (user) return user;
+      throw new UnauthorizedException('Unauthorized');
+    } catch (error) {}
+  }
+
+  public async auth(oAuthToken: string) {
+    try {
+      const { email, name, sub } = await this.googleAuth(oAuthToken);
+      const user = await this.prisma.user.findUnique({
         where: { email },
       });
-      if (!userExist) {
-        const user = await this.prisma.user.create({
+
+      if (!user) {
+        const newUser = await this.prisma.user.create({
           data: {
             email,
             name,
           },
         });
-        return this.signToken(user.id);
+        return this.signToken(newUser.id, sub, oAuthToken);
       }
-      return this.signToken(userExist.id);
+
+      return this.signToken(user.id, sub, oAuthToken);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
     }
@@ -47,16 +68,21 @@ export class AuthService {
         idToken: oAuthToken,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
-      console.log(ticket);
       return ticket.getPayload();
     } catch (error) {
       throw new NotFoundException('Google did not found a user');
     }
   }
 
-  private async signToken(userId: string): Promise<{ token: string }> {
+  private async signToken(
+    userId: string,
+    googleSub: string,
+    oAuthToken: string,
+  ): Promise<{ token: string }> {
     const payload = {
       id: userId,
+      googleSub,
+      oAuthToken,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
