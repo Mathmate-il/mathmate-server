@@ -36,8 +36,8 @@ export class AuthService {
       }
 
       const user = await this.findUserByUniqueValue({ id: userId });
-
       if (user) return user;
+
       throw new NotFoundException('User does not exist');
     } catch (error) {
       throw new BadRequestException('Bad request');
@@ -95,11 +95,11 @@ export class AuthService {
   }
 
   private async findUserByUniqueValue(
-    ident: Prisma.UserWhereUniqueInput,
+    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
     try {
       const user = await this.prisma.user.findUnique({
-        where: ident,
+        where: userWhereUniqueInput,
       });
 
       if (!user) {
