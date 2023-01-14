@@ -1,12 +1,18 @@
 import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
+  private oAuthClient: OAuth2Client;
   constructor(
     private readonly prisma: PrismaService,
     private readonly config: AppConfigService,
@@ -18,24 +24,41 @@ export class AuthService {
     );
   }
 
-  private oAuthClient: OAuth2Client;
-
-  async auth(oAuthToken: string) {
+  public async validateUser(
+    userId: string,
+    userGoogleSub: string,
+    oAuthToken: string,
+  ) {
     try {
-      const { email, name } = await this.googleAuth(oAuthToken);
-      const userExist = await this.prisma.user.findUnique({
-        where: { email },
-      });
-      if (!userExist) {
-        const user = await this.prisma.user.create({
+      const { sub } = await this.googleAuth(oAuthToken);
+      if (sub !== userGoogleSub) {
+        throw new UnauthorizedException('Unauthorized');
+      }
+
+      const user = await this.findUserByUniqueValue({ id: userId });
+      if (user) return user;
+
+      throw new NotFoundException('User does not exist');
+    } catch (error) {
+      throw new BadRequestException('Bad request');
+    }
+  }
+
+  public async auth(oAuthToken: string) {
+    try {
+      const { email, name, sub } = await this.googleAuth(oAuthToken);
+      const user = await this.findUserByUniqueValue({ email: email });
+
+      if (!user) {
+        const newUser = await this.prisma.user.create({
           data: {
             email,
             name,
           },
         });
-        return this.signToken(user.id);
+        return this.signToken(newUser.id, sub, oAuthToken);
       }
-      return this.signToken(userExist.id);
+      return this.signToken(user.id, sub, oAuthToken);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
     }
@@ -53,9 +76,15 @@ export class AuthService {
     }
   }
 
-  private async signToken(userId: string): Promise<{ token: string }> {
+  private async signToken(
+    userId: string,
+    googleSub: string,
+    oAuthToken: string,
+  ): Promise<{ token: string }> {
     const payload = {
       id: userId,
+      googleSub,
+      oAuthToken,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
@@ -63,5 +92,22 @@ export class AuthService {
     });
 
     return { token };
+  }
+
+  private async findUserByUniqueValue(
+    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
+  ): Promise<User> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: userWhereUniqueInput,
+      });
+
+      if (!user) {
+        throw new NotFoundException();
+      }
+      return user;
+    } catch (error) {
+      throw new BadRequestException('Bad Request');
+    }
   }
 }
