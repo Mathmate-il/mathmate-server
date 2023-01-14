@@ -16,10 +16,4 @@ export class AuthController {
     const oAuthToken = req.headers['authorization'];
     return await this.authService.auth(oAuthToken);
   }
-
-  @Get('/me')
-  @UseGuards(JwtGuard)
-  async getUser(@GetUser() user: User) {
-    return user;
-  }
 }
