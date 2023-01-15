@@ -1,5 +1,3 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaService } from './prisma/prisma.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
