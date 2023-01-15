@@ -22,19 +22,32 @@
 
 ## Project overview
 
-**Stage 1:**
+**Stage 1:** // Time estimated from the start - 1 year
 
 - Community based forum where anyone can ask math-related questions using a well suited interface.
-- Implementing tagging system
+- Implementing tagging system to collect data for future needs
 
-**Stage 2:**
+**Stage 2:** // Time estimated from the start - 2 year
 
-- Implementing a scoring system to increase reliability
-- Data driven filtering and querying
-
-**Stage 3:**
-
+- Implementing a scoring and badging system to increase reliability based on collected data.
 - Expanding our math subjects to more complex interfaces such as: Geometry, graphs, etc.
+
+**Stage 3:** // Time estimated from the start - 2.5 year
+
+- Data driven filtering and querying of questions & smart suggestions.
+
+**Stage 4:** // Time estimated from the start - 4 year
+
+- Allowing specific users (Based on data) to create LeetCode-like math questions with pre-defined solutions.
+- Embedded math calculator with LaTex support.
+
+**Stage 5:** // Time estimated from the start - At least 6 years
+
+- Embedded proof-assistant.
+
+**Stage 6:** // Time estimated from the start - At least 8 years
+
+- MathmateNLP (The golden goal)
 
 ---
 
