@@ -1,4 +1,4 @@
-import { UserRepository } from '../repositories/UserRepository';
+import { UserRepository } from '../repositories/entities/UserRepository';
 import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
@@ -34,7 +34,7 @@ export class AuthService {
         throw new UnauthorizedException('Unauthorized');
       }
 
-      const user = await this.userRepository.findUserByUniqueInput({
+      const user = await this.userRepository.findOne({
         id: userId,
       });
       if (user) return user;
@@ -48,12 +48,12 @@ export class AuthService {
   public async auth(oAuthToken: string) {
     try {
       const { email, name, sub } = await this.googleAuth(oAuthToken);
-      const user = await this.userRepository.findUserByUniqueInput({
+      const user = await this.userRepository.findOne({
         email: email,
       });
 
       if (!user) {
-        const newUser = await this.userRepository.createUser({ email, name });
+        const newUser = await this.userRepository.create({ email, name });
         return this.signToken(newUser.id, sub, oAuthToken);
       }
 
