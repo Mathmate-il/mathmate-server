@@ -12,7 +12,11 @@ export class TagRepository extends Repository<
   Prisma.TagCreateInput,
   Prisma.TagUpdateInput
 > {
+  tagServiceExtension: Prisma.TagDelegate<
+    Prisma.RejectOnNotFound | Prisma.RejectPerOperation
+  >;
   constructor(prisma: PrismaService) {
     super(prisma, 'tag');
+    this.tagServiceExtension = this.prisma.tag;
   }
 }

@@ -12,7 +12,11 @@ export class UserRepository extends Repository<
   Prisma.UserCreateInput,
   Prisma.UserUpdateInput
 > {
+  userServiceExtension: Prisma.UserDelegate<
+    Prisma.RejectOnNotFound | Prisma.RejectPerOperation
+  >;
   constructor(prisma: PrismaService) {
     super(prisma, 'user');
+    this.userServiceExtension = this.prisma.user;
   }
 }

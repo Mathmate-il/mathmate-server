@@ -11,7 +11,7 @@ export class Repository<
   UpdateInput,
 > {
   constructor(
-    private readonly prisma: PrismaService,
+    protected readonly prisma: PrismaService,
     private readonly entity: string,
   ) {}
 

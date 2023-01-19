@@ -12,7 +12,11 @@ export class QuestionRepository extends Repository<
   Prisma.QuestionCreateInput,
   Prisma.QuestionUpdateInput
 > {
+  questionServiceExtension: Prisma.QuestionDelegate<
+    Prisma.RejectOnNotFound | Prisma.RejectPerOperation
+  >;
   constructor(prisma: PrismaService) {
     super(prisma, 'question');
+    this.questionServiceExtension = this.prisma.question;
   }
 }
