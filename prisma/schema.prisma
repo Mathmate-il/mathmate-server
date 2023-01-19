@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DOCKER_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -19,6 +19,18 @@ model User {
   answers   Answer[]
   questions Question[] @relation("question")
   bookmarks Question[] @relation("UsersAndBookmarks")
+  answerRating AnswerRating[]
+  questionRating QuestionRating[]
+}
+
+
+model QuestionRating {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  questionId   String
+  relatedQuestion  Question   @relation(fields: [questionId], references: [id])
 }
 
 model Question {
@@ -26,24 +38,34 @@ model Question {
   createdAt      DateTime @default(now())
   title          String
   question       String
-  rate           Int      @default(0)
   ownerId        String
   owner          User     @relation(name: "question", fields: [ownerId], references: [id])
   answers        Answer[]
   bookedMarkedBy User[]   @relation("UsersAndBookmarks")
   tags           Tag[]    @relation("QuestionsAndTags")
+  questionRating QuestionRating[]
+}
+
+
+model AnswerRating {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  answerId   String
+  relatedAnswer  Answer   @relation(fields: [answerId], references: [id])
 }
 
 model Answer {
   id              String   @id @default(uuid())
   createdAt       DateTime @default(now())
   isChosen        Boolean  @default(false)
-  rate            Int      @default(0)
   answer          String
   ownerId         String
   owner           User     @relation(fields: [ownerId], references: [id])
   questionId      String
   relatedQuestion Question @relation(fields: [questionId], references: [id])
+  answerRating AnswerRating[]
 }
 
 model Tag {
