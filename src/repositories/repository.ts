@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class Repository<
-  T,
+  Entity,
   WhereUniqueInput,
   WhereInput,
   OrderByWithRelationInput,
@@ -15,7 +15,7 @@ export class Repository<
     private readonly entity: string,
   ) {}
 
-  async findOne(where: WhereUniqueInput): Promise<T | null> {
+  async findOne(where: WhereUniqueInput): Promise<Entity | null> {
     return this.prisma[this.entity].findUnique({
       where,
     });
@@ -27,7 +27,7 @@ export class Repository<
     cursor?: WhereUniqueInput;
     where?: WhereInput;
     orderBy?: OrderByWithRelationInput;
-  }): Promise<T[]> {
+  }): Promise<Entity[]> {
     return this.prisma[this.entity].findMany({
       skip: params.skip,
       take: params.take,
@@ -37,7 +37,7 @@ export class Repository<
     });
   }
 
-  async create(data: CreateInput): Promise<T> {
+  async create(data: CreateInput): Promise<Entity> {
     return this.prisma[this.entity].create({
       data,
     });
@@ -46,14 +46,14 @@ export class Repository<
   async update(params: {
     where: WhereUniqueInput;
     data: UpdateInput;
-  }): Promise<T> {
+  }): Promise<Entity> {
     return this.prisma[this.entity].update({
       where: params.where,
       data: params.data,
     });
   }
 
-  async delete(where: WhereUniqueInput): Promise<T> {
+  async delete(where: WhereUniqueInput): Promise<Entity> {
     return this.prisma[this.entity].delete({
       where,
     });
