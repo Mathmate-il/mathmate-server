@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { DocumentBuilder } from '@nestjs/swagger/dist';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { AppConfigService } from './auth/config/config.service';
+import { AppConfigService } from './config/config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +18,18 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Mathmate API')
     .setVersion('1.0')
+    // .addBearerAuth(
+    //   {
+    //     // I was also testing it without prefix 'Bearer ' before the JWT
+    //     description: `Please enter token in following format: Bearer <JWT>`,
+    //     name: 'Authorization',
+    //     bearerFormat: 'Bearer', // I`ve tested not to use this field, but the result was the same
+    //     scheme: 'Bearer',
+    //     type: 'http', // I`ve attempted type: 'apiKey' too
+    //     in: 'Header',
+    //   },
+    //   'access-token', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+    // )
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);

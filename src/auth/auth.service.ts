@@ -48,6 +48,7 @@ export class AuthService {
   public async auth(oAuthToken: string) {
     try {
       const { email, name, sub } = await this.googleAuth(oAuthToken);
+
       const user = await this.userRepository.findUserByUniqueInput({
         email: email,
       });
