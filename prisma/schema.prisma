@@ -17,7 +17,7 @@ model User{
   createdAt DateTime   @default(now())
   email     String     @unique
   name      String
-  image     String?
+  image     String
   answers   Answer[]
   questions Question[]
   bookmarks Bookmark[] 
