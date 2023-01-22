@@ -24,5 +24,8 @@ export class UserController {
     return this.userService.updateUser(user.id, body);
   }
 
+
   // Todo: Create question with the user id, Hint -> use the @GetUser()
+
+
 }
