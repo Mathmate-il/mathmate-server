@@ -17,7 +17,7 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: string;
+  createdAt: Date;
 
   @IsString()
   @IsNotEmpty()
