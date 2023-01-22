@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { RepositoriesModule } from './repositories/repositories.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RepositoriesModule } from './repositories/repositories.module';
       ttl: 60,
       limit: 100,
     }),
+    UserModule,
   ],
 })
 export class AppModule {}

@@ -47,13 +47,17 @@ export class AuthService {
 
   public async auth(oAuthToken: string) {
     try {
-      const { email, name, sub } = await this.googleAuth(oAuthToken);
+      const { email, name, picture, sub } = await this.googleAuth(oAuthToken);
       const user = await this.userRepository.findOne({
         email: email,
       });
 
       if (!user) {
-        const newUser = await this.userRepository.create({ email, name });
+        const newUser = await this.userRepository.create({
+          email,
+          name,
+          image: picture,
+        });
         return this.signToken(newUser.id, sub, oAuthToken);
       }
 

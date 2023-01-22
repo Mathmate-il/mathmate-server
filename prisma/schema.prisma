@@ -10,17 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+
+
+model User{
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   email     String     @unique
   name      String
-  image     String?
+  image     String
   answers   Answer[]
   questions Question[]
   bookmarks Bookmark[] 
   answerRating AnswerRating[]
   questionRating QuestionRating[]
+
 }
 
 
@@ -42,8 +45,9 @@ model QuestionRating {
   user       User     @relation(fields: [userId], references: [id])
   questionId   String
   relatedQuestion  Question   @relation(fields: [questionId], references: [id])
-  
 }
+
+
 
 model Question {
   id             String   @id @default(uuid())
@@ -85,4 +89,6 @@ model Tag {
   id               String     @id @default(uuid())
   tagName          String
   relatedQuestions Question[] 
+  
 }
+
