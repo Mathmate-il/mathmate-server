@@ -10,17 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+
+
+model User{
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   email     String     @unique
   name      String
-  image     String?
+  image     String
   answers   Answer[]
-  questions Question[] @relation("question")
-  bookmarks Question[] @relation("UsersAndBookmarks")
+  questions Question[]
+  bookmarks Bookmark[] 
   answerRating AnswerRating[]
   questionRating QuestionRating[]
+
+}
+
+
+model Bookmark {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  questionId   String
+  relatedQuestion  Question   @relation(fields: [questionId], references: [id])
+
 }
 
 
@@ -33,17 +47,19 @@ model QuestionRating {
   relatedQuestion  Question   @relation(fields: [questionId], references: [id])
 }
 
+
+
 model Question {
   id             String   @id @default(uuid())
   createdAt      DateTime @default(now())
   title          String
   question       String
   ownerId        String
-  owner          User     @relation(name: "question", fields: [ownerId], references: [id])
+  owner          User     @relation(fields: [ownerId], references: [id])
   answers        Answer[]
-  bookedMarkedBy User[]   @relation("UsersAndBookmarks")
-  tags           Tag[]    @relation("QuestionsAndTags")
+  tags           Tag[]    
   questionRating QuestionRating[]
+  bookmarks Bookmark[]
 }
 
 
@@ -68,8 +84,11 @@ model Answer {
   answerRating AnswerRating[]
 }
 
+
 model Tag {
   id               String     @id @default(uuid())
   tagName          String
-  relatedQuestions Question[] @relation("QuestionsAndTags")
+  relatedQuestions Question[] 
+  
 }
+
