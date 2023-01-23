@@ -1,5 +1,5 @@
 import { NotUpdatable } from '../../helpers/NotUpdatable';
-import { IsOptional } from '@nestjs/class-validator';
+import { IsOptional, IsDate } from '@nestjs/class-validator';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -14,8 +14,9 @@ export class UpdateUserDto {
   id?: string;
 
   @IsOptional()
+  @IsDate()
   @NotUpdatable({ message: 'The createdAt field is not updatable' })
-  createdAt?: string;
+  createdAt?: Date;
 
   @IsOptional()
   name?: string;
