@@ -15,6 +15,7 @@ export class UserService {
           'User with this credentials has not been found',
         );
       }
+
       const updatedUser = await this.userRepository.update({
         where: { id },
         data: body,
