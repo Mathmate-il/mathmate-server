@@ -16,12 +16,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: {
     id: string;
     googleSub: string;
-    oAuthToken: string;
+    clientCredentials: string;
   }) {
     const user = await this.authService.validateUser(
       payload.id,
       payload.googleSub,
-      payload.oAuthToken,
+      payload.clientCredentials,
     );
 
     return user;
