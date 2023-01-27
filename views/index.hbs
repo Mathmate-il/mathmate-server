@@ -3,7 +3,8 @@
     <meta charset='utf-8' />
     <title>App</title>
 
-    <meta name='google-signin-client_id' content='<%=GOOGLE_CLIENT_ID=%>' />
+    <meta name='google-signin-client_id' content='{{client}}' />
+
     <meta
       http-equiv='Content-Security-Policy'
       content="script-src 'unsafe-inline' https://accounts.google.com"
@@ -15,7 +16,7 @@
   <body>
     <div
       id='g_id_onload'
-      data-client_id='<%=GOOGLE_CLIENT_ID=%>'
+      data-client_id='{{client}}'
       data-context='signin'
       data-ux_mode='popup'
       data-login_uri='http://localhost:3001/index'
