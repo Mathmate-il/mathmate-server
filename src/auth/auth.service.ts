@@ -26,10 +26,10 @@ export class AuthService {
   public async validateUser(
     userId: string,
     userGoogleSub: string,
-    oAuthToken: string,
+    clientCredentials: string,
   ) {
     try {
-      const { sub } = await this.googleAuth(oAuthToken);
+      const { sub } = await this.googleAuth(clientCredentials);
       if (sub !== userGoogleSub) {
         throw new UnauthorizedException('Unauthorized');
       }
@@ -45,9 +45,11 @@ export class AuthService {
     }
   }
 
-  public async auth(oAuthToken: string) {
+  public async auth(clientCredentials: string) {
     try {
-      const { email, name, picture, sub } = await this.googleAuth(oAuthToken);
+      const { email, name, picture, sub } = await this.googleAuth(
+        clientCredentials,
+      );
       const user = await this.userRepository.findOne({
         email: email,
       });
@@ -58,19 +60,19 @@ export class AuthService {
           name,
           image: picture,
         });
-        return this.signToken(newUser.id, sub, oAuthToken);
+        return this.signToken(newUser.id, sub, clientCredentials);
       }
 
-      return this.signToken(user.id, sub, oAuthToken);
+      return this.signToken(user.id, sub, clientCredentials);
     } catch (error) {
       throw new UnauthorizedException('Unauthenticated');
     }
   }
 
-  private async googleAuth(oAuthToken: string) {
+  private async googleAuth(clientCredentials: string) {
     try {
       const ticket = await this.oAuthClient.verifyIdToken({
-        idToken: oAuthToken,
+        idToken: clientCredentials,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
       return ticket.getPayload();
@@ -82,12 +84,12 @@ export class AuthService {
   private async signToken(
     userId: string,
     googleSub: string,
-    oAuthToken: string,
+    clientCredentials: string,
   ): Promise<{ token: string }> {
     const payload = {
       id: userId,
       googleSub,
-      oAuthToken,
+      clientCredentials,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '24h',

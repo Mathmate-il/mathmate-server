@@ -1,3 +1,4 @@
+import { AppController } from './app.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from './prisma/prisma.module';
 import { Module } from '@nestjs/common';
@@ -20,5 +21,6 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

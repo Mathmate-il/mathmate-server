@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>App</title>
+
+    <meta name='google-signin-client_id' content='{{client}}' />
+
+    <meta
+      http-equiv='Content-Security-Policy'
+      content="script-src 'unsafe-inline' https://accounts.google.com"
+    />
+
+    <meta http-equiv='Access-Control-Allow-Origin' content='*' />
+  </head>
+
+  <body>
+    <div
+      id='g_id_onload'
+      data-client_id='{{client}}'
+      data-context='signin'
+      data-ux_mode='popup'
+      data-login_uri='http://localhost:3001/index'
+      data-auto_prompt='false'
+    >
+    </div>
+
+    <div
+      class='g_id_signin'
+      data-type='standard'
+      data-shape='rectangular'
+      data-theme='outline'
+      data-text='signin_with'
+      data-size='large'
+      data-logo_alignment='left'
+    >
+    </div>
+
+    <script src='https://accounts.google.com/gsi/client' async defer></script>
+
+  </body>
+</html>

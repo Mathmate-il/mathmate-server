@@ -1,3 +1,4 @@
+import { UserRepository } from './../repositories/entities/UserRepository';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
