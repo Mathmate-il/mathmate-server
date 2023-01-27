@@ -10,6 +10,8 @@ export class AuthController {
   @Post('/login')
   @ApiSecurity('oauth2')
   async auth(@Req() req: Request): Promise<{ token: string }> {
+    console.log(req.headers['authorization']);
+
     const oAuthToken = req.headers['authorization'];
     return await this.authService.auth(oAuthToken);
   }
