@@ -6,6 +6,6 @@ export class AppController {
   @Render('index')
   @Header('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
   root() {
-    return { message: 'Hello world!' };
+    return { client: process.env.GOOGLE_CLIENT_ID };
   }
 }
