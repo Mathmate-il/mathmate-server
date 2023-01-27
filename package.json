@@ -39,6 +39,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "google-auth-library": "^8.7.0",
+    "hbs": "^4.2.0",
     "helmet": "^6.0.1",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",

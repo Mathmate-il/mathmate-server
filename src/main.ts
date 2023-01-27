@@ -44,6 +44,10 @@ async function bootstrap() {
 
   await app.listen(3001);
 
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+
   console.log(
     'You can use the swagger UI in the following url: http://localhost:3001/api',
   );
