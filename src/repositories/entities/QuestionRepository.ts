@@ -4,6 +4,7 @@ import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
 import { Prisma, Question } from '@prisma/client';
 import { TagDto } from 'src/tag/dto/TagDto';
+import { CreateQuestionDto } from 'src/question/dto/CreateQuestionDto';
 
 @Injectable()
 export class QuestionRepository extends Repository<
@@ -23,18 +24,18 @@ export class QuestionRepository extends Repository<
   }
 
   async createQuestionWithTags(
-    question: QuestionDto,
-    tags: TagDto[],
+    question: CreateQuestionDto,
+    userId: string,
   ): Promise<Question> {
     return this.prisma.question.create({
       data: {
         ...question,
         tags: {
-          create: {
-            ...tags,
-          },
+          create: [...question.tags],
         },
+        ownerId: userId,
       },
+      include: { tags: true },
     });
   }
 }
