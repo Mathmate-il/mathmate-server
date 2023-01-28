@@ -1,10 +1,11 @@
 import { GetUser } from './../auth/utils/getUser.decorator';
 import { JwtGuard } from './../auth/utils/auth.guard';
-import { Body, Controller, Get, UseGuards, Patch } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dto/UserDto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
-import { User } from '@prisma/client';
+import { User, Question } from '@prisma/client';
+import { CreateQuestionDto } from 'src/question/dto/CreateQuestionDto';
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -24,5 +25,11 @@ export class UserController {
     return this.userService.updateUser(user.id, body);
   }
 
-  // Todo: Create question with the user id, Hint -> use the @GetUser()
+  @Post('/me/create')
+  async createQuestion(
+    @GetUser() user: UserDto,
+    @Body() body: CreateQuestionDto,
+  ): Promise<Question> {
+    return this.userService.createQuestion(user.id, body);
+  }
 }
