@@ -25,7 +25,7 @@ export class UserController {
     return this.userService.updateUser(user.id, body);
   }
 
-  @Post('/me/create')
+  @Post('/me/create-question')
   async createQuestion(
     @GetUser() user: UserDto,
     @Body() body: CreateQuestionDto,
