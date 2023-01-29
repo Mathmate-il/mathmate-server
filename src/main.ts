@@ -45,7 +45,7 @@ async function bootstrap() {
   );
 
   console.log(
-    'You can get your google credentials in http://localhost:3001/index',
+    'You can get your google credentials in http://localhost:3001/dev/google/auth',
   );
 }
 
