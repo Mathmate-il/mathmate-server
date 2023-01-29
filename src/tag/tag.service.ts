@@ -1,11 +1,21 @@
+import { NotFoundException } from '@nestjs/common/exceptions';
+import { ServerError } from './../helpers/Errors.enums';
 import { TagRepository } from './../repositories/entities/TagRepository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class TagService {
   constructor(private readonly tagRepository: TagRepository) {}
 
   async getAllTags() {
-    return await this.tagRepository.findMany({});
+    try {
+      const tags = await this.tagRepository.findMany({});
+      if (!tags) {
+        throw new NotFoundException(ServerError.NotFound);
+      }
+      return tags;
+    } catch (error) {
+      throw new BadRequestException(ServerError.BadRequest);
+    }
   }
 }
