@@ -7,6 +7,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { RepositoriesModule } from './repositories/repositories.module';
 import { UserModule } from './user/user.module';
 import { DevModule } from './dev/dev.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { DevModule } from './dev/dev.module';
       limit: 100,
     }),
     UserModule,
+    TagModule,
   ],
 })
 export class AppModule {}
