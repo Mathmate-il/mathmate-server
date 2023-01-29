@@ -1,9 +1,9 @@
-import { QuestionDto } from '../../question/dto/QuestionDto';
+import { TagErrorMessages } from './../../helpers/Errors.enums';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
 import { Prisma, Question } from '@prisma/client';
-import { TagDto } from 'src/tag/dto/TagDto';
 import { CreateQuestionDto } from 'src/question/dto/CreateQuestionDto';
 
 @Injectable()
@@ -27,13 +27,29 @@ export class QuestionRepository extends Repository<
     question: CreateQuestionDto,
     userId: string,
   ): Promise<Question> {
+    const existingTags = await this.prisma.tag.findMany({
+      where: {
+        id: {
+          in: question.tags.map((tag) => tag.id),
+        },
+      },
+    });
+
+    if (existingTags.length !== question.tags.length) {
+      throw new NotFoundException(TagErrorMessages.NotFound);
+    }
+
     return this.prisma.question.create({
       data: {
         ...question,
         tags: {
-          create: [...question.tags],
+          connect: existingTags,
         },
-        ownerId: userId,
+        owner: {
+          connect: {
+            id: userId,
+          },
+        },
       },
       include: { tags: true },
     });

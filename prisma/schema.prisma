@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DOCKER_DATABASE_URL")
 }
 
 
@@ -89,6 +89,5 @@ model Tag {
   id               String     @id @default(uuid())
   tagName          String
   relatedQuestions Question[] 
-  
 }
 

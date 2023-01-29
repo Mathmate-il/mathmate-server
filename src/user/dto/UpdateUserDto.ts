@@ -1,23 +1,29 @@
+import { UpdateErrorMessages } from './../../helpers/Errors.enums';
 import { NotUpdatable } from '../../helpers/NotUpdatable';
 import { IsOptional, IsDate } from '@nestjs/class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
   @IsOptional()
-  @NotUpdatable({ message: 'The email field is not updatable' })
+  @NotUpdatable({ message: UpdateErrorMessages.EmailNotUpdatable })
+  @ApiProperty()
   email?: string;
 
   @IsOptional()
   image?: string;
 
   @IsOptional()
-  @NotUpdatable({ message: 'The id field is not updatable' })
+  @NotUpdatable({ message: UpdateErrorMessages.IdNotUpdatable })
+  @ApiProperty()
   id?: string;
 
   @IsOptional()
   @IsDate()
-  @NotUpdatable({ message: 'The createdAt field is not updatable' })
+  @NotUpdatable({ message: UpdateErrorMessages.CreatedAtNotUpdatable })
+  @ApiProperty()
   createdAt?: Date;
 
   @IsOptional()
+  @ApiProperty()
   name?: string;
 }
