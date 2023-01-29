@@ -8,6 +8,7 @@ import { RepositoriesModule } from './repositories/repositories.module';
 import { UserModule } from './user/user.module';
 import { DevModule } from './dev/dev.module';
 import { TagModule } from './tag/tag.module';
+import { QuestionModule } from './question/question.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TagModule } from './tag/tag.module';
     }),
     UserModule,
     TagModule,
+    QuestionModule,
   ],
 })
 export class AppModule {}
