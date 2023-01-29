@@ -31,22 +31,18 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('swagger', app, document);
-
-  seedTagTable();
-
   await app.listen(3001);
-
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
-
   console.log(
     '\x1b[1;34m 🚀 You can use the swagger UI in the following url: http://localhost:3001/swagger 🚀\x1b[0m',
   );
-
   console.log(
     '\x1b[1;34m 🔑 You can get your google credentials in http://localhost:3001/dev/google/auth 🔑\x1b[0m',
   );
+
+  seedTagTable();
 }
 
 bootstrap();
