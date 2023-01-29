@@ -3,7 +3,7 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
-import { Prisma, Question } from '@prisma/client';
+import { Prisma, Question, Tag } from '@prisma/client';
 import { CreateQuestionDto } from 'src/question/dto/CreateQuestionDto';
 
 @Injectable()
@@ -43,7 +43,9 @@ export class QuestionRepository extends Repository<
       data: {
         ...question,
         tags: {
-          connect: existingTags,
+          connect: existingTags.map((item: Tag) => {
+            return { id: item.id };
+          }),
         },
         owner: {
           connect: {
