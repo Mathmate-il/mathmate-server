@@ -7,6 +7,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { RepositoriesModule } from './repositories/repositories.module';
 import { UserModule } from './user/user.module';
 import { DevModule } from './dev/dev.module';
+import { TagController } from './tag/tag.controller';
+import { TagService } from './tag/tag.service';
 
 @Module({
   imports: [
@@ -22,5 +24,7 @@ import { DevModule } from './dev/dev.module';
     }),
     UserModule,
   ],
+  controllers: [TagController],
+  providers: [TagService],
 })
 export class AppModule {}
