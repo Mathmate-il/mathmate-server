@@ -43,9 +43,7 @@ export class QuestionRepository extends Repository<
       data: {
         ...question,
         tags: {
-          connect: existingTags.map((item: Tag) => {
-            return { id: item.id };
-          }),
+          connect: [...question.tags],
         },
         owner: {
           connect: {
