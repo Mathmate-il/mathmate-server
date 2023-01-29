@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import * as cors from 'cors';
+import { seedTagTable } from './database/mathSubjects';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -27,12 +28,18 @@ async function bootstrap() {
     .setTitle('Mathmate API')
     .setVersion('1.0')
     .build();
+
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
+
+  seedTagTable();
+
   await app.listen(3001);
+
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
+
   console.log(
     'You can use the swagger UI in the following url: http://localhost:3001/api',
   );
