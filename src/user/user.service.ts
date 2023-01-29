@@ -1,3 +1,4 @@
+import { ServerError } from './../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { UserRepository } from './../repositories/entities/UserRepository';
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -16,9 +17,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({ id });
       if (!user) {
-        throw new NotFoundException(
-          'User with this credentials has not been found',
-        );
+        throw new NotFoundException(ServerError.NotFound);
       }
 
       const updatedUser = await this.userRepository.update({
@@ -27,7 +26,7 @@ export class UserService {
       });
       return updatedUser;
     } catch (error) {
-      throw new BadRequestException('Bad request');
+      throw new BadRequestException(ServerError.BadRequest);
     }
   }
 
@@ -36,9 +35,7 @@ export class UserService {
       const user = await this.userRepository.findOne({ id });
 
       if (!user) {
-        throw new NotFoundException(
-          'User with this credentials has not been found',
-        );
+        throw new NotFoundException(ServerError.NotFound);
       }
 
       const createdQuestion = this.questionRepository.createQuestionWithTags(
@@ -48,7 +45,7 @@ export class UserService {
 
       return createdQuestion;
     } catch (error) {
-      throw new BadRequestException('Bad request');
+      throw new BadRequestException(ServerError.BadRequest);
     }
   }
 }
