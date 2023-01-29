@@ -11,3 +11,7 @@ export enum UpdateErrorMessages {
   IdNotUpdatable = 'The id field is not updatable',
   CreatedAtNotUpdatable = 'The createdAt field is not updatable',
 }
+
+export enum TagErrorMessages {
+  NotFound = 'One or more provided tags do not exist in the tags table',
+}
