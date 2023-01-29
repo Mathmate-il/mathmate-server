@@ -1,3 +1,4 @@
+import { ServerError } from './../helpers/Errors.enums';
 import { UserRepository } from '../repositories/entities/UserRepository';
 import { AppConfigService } from '../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
@@ -31,7 +32,7 @@ export class AuthService {
     try {
       const { sub } = await this.googleAuth(clientCredentials);
       if (sub !== userGoogleSub) {
-        throw new UnauthorizedException('Unauthorized');
+        throw new UnauthorizedException(ServerError.Unauthorized);
       }
 
       const user = await this.userRepository.findOne({
@@ -39,9 +40,9 @@ export class AuthService {
       });
       if (user) return user;
 
-      throw new NotFoundException('User does not exist');
+      throw new NotFoundException(ServerError.NotFound);
     } catch (error) {
-      throw new BadRequestException('Bad request');
+      throw new BadRequestException(ServerError.NotFound);
     }
   }
 
@@ -65,7 +66,7 @@ export class AuthService {
 
       return this.signToken(user.id, sub, clientCredentials);
     } catch (error) {
-      throw new UnauthorizedException('Unauthenticated');
+      throw new UnauthorizedException(ServerError.Unauthorized);
     }
   }
 
@@ -77,7 +78,7 @@ export class AuthService {
       });
       return ticket.getPayload();
     } catch (error) {
-      throw new NotFoundException('Google did not found a user');
+      throw new NotFoundException(ServerError.NotFound);
     }
   }
 
@@ -92,7 +93,7 @@ export class AuthService {
       clientCredentials,
     };
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '24h',
+      expiresIn: '7d',
       secret: this.config.getConfig().jwt.secret,
     });
 

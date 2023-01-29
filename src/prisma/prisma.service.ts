@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient {
       datasources: {
         db: {
           url:
-            process.env.DOCKER === 'true'
+            process.env.NODE_ENV === 'docker'
               ? config.getConfig().database.docker_url
               : config.getConfig().database.url,
         },

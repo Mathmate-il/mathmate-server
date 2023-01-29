@@ -89,6 +89,5 @@ model Tag {
   id               String     @id @default(uuid())
   tagName          String
   relatedQuestions Question[] 
-  
 }
 

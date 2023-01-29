@@ -11,9 +11,28 @@
     />
 
     <meta http-equiv='Access-Control-Allow-Origin' content='*' />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'
+      rel='stylesheet'
+    />
+
+    <style>
+      .instructions { font-family: 'Open Sans', sans-serif; font-size: 16px;
+      color: #333; margin: 20px 0; border: #333 solid 1px; padding: 5%;
+      border-radius: 10px;}
+
+    </style>
   </head>
 
   <body>
+    <div class='instructions'>
+      <h1>Hello there back-end developer !</h1>
+      <p>To obtain your Google user credentials, please click on the Google
+        icon, choose a user, and then open the console of your browser. In the
+        "Networks" section, find the request that has failed and take the
+        payload from it. This will be a long string, and it is your Google user
+        credentials.</p>
+    </div>
     <div
       id='g_id_onload'
       data-client_id='{{client}}'
