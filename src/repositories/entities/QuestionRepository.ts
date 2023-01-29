@@ -31,7 +31,11 @@ export class QuestionRepository extends Repository<
         tags: {
           create: [...question.tags],
         },
-        ownerId: userId,
+        owner: {
+          connect: {
+            id: userId,
+          },
+        },
       },
       include: { tags: true },
     });
