@@ -43,7 +43,7 @@ export class QuestionRepository extends Repository<
       data: {
         ...question,
         tags: {
-          connect: existingTags,
+          connect: [...question.tags],
         },
         owner: {
           connect: {

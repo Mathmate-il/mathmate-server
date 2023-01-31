@@ -8,11 +8,6 @@ export class CreateQuestionDto {
   @ApiProperty()
   title: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  @ApiProperty()
-  createdAt: Date;
-
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
