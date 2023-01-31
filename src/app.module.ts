@@ -1,14 +1,14 @@
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from './prisma/prisma.module';
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './services/auth/auth.module';
 import { AppConfigModule } from './config/config.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { RepositoriesModule } from './repositories/repositories.module';
-import { UserModule } from './user/user.module';
+import { UserModule } from './services/user/user.module';
 import { DevModule } from './dev/dev.module';
-import { TagModule } from './tag/tag.module';
-import { QuestionModule } from './question/question.module';
+import { TagModule } from './services/tag/tag.module';
+import { QuestionModule } from './services/question/question.module';
 
 @Module({
   imports: [

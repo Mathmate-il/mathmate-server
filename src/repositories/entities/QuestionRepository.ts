@@ -3,8 +3,8 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
-import { Prisma, Question, Tag } from '@prisma/client';
-import { CreateQuestionDto } from 'src/question/dto/CreateQuestionDto';
+import { Prisma, Question } from '@prisma/client';
+import { CreateQuestionDto } from '../../services/question/dto/CreateQuestionDto';
 
 @Injectable()
 export class QuestionRepository extends Repository<

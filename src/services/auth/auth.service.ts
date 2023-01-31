@@ -1,6 +1,6 @@
-import { ServerError } from './../helpers/Errors.enums';
-import { UserRepository } from '../repositories/entities/UserRepository';
-import { AppConfigService } from '../config/config.service';
+import { ServerError } from '../../helpers/Errors.enums';
+import { UserRepository } from '../../repositories/entities/UserRepository';
+import { AppConfigService } from '../../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import {
@@ -24,17 +24,8 @@ export class AuthService {
     );
   }
 
-  public async validateUser(
-    userId: string,
-    userGoogleSub: string,
-    clientCredentials: string,
-  ) {
+  public async validateUser(userId: string) {
     try {
-      const { sub } = await this.googleAuth(clientCredentials);
-      if (sub !== userGoogleSub) {
-        throw new UnauthorizedException(ServerError.Unauthorized);
-      }
-
       const user = await this.userRepository.findOne({
         id: userId,
       });
@@ -48,9 +39,7 @@ export class AuthService {
 
   public async auth(clientCredentials: string) {
     try {
-      const { email, name, picture, sub } = await this.googleAuth(
-        clientCredentials,
-      );
+      const { email, name, picture } = await this.googleAuth(clientCredentials);
       const user = await this.userRepository.findOne({
         email: email,
       });
@@ -61,10 +50,10 @@ export class AuthService {
           name,
           image: picture,
         });
-        return this.signToken(newUser.id, sub, clientCredentials);
+        return this.signToken(newUser.id);
       }
 
-      return this.signToken(user.id, sub, clientCredentials);
+      return this.signToken(user.id);
     } catch (error) {
       throw new UnauthorizedException(ServerError.Unauthorized);
     }
@@ -82,15 +71,9 @@ export class AuthService {
     }
   }
 
-  private async signToken(
-    userId: string,
-    googleSub: string,
-    clientCredentials: string,
-  ): Promise<{ token: string }> {
+  private async signToken(userId: string): Promise<{ token: string }> {
     const payload = {
       id: userId,
-      googleSub,
-      clientCredentials,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '7d',
