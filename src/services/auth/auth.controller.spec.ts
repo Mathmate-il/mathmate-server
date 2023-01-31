@@ -1,5 +1,5 @@
-import { PrismaService } from './../prisma/prisma.service';
-import { UserRepository } from './../repositories/entities/UserRepository';
+import { PrismaService } from '../../prisma/prisma.service';
+import { UserRepository } from '../../repositories/entities/UserRepository';
 import { unauthorizedResponse } from './utils/auth.test.responses';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { AppConfigModule } from '../config/config.module';
+import { AppConfigModule } from '../../config/config.module';
 
 describe('AuthController', () => {
   let app: INestApplication;
