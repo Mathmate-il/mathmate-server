@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { ServerError } from './../helpers/Errors.enums';
-import { TagRepository } from './../repositories/entities/TagRepository';
+import { ServerError } from '../../helpers/Errors.enums';
+import { TagRepository } from '../../repositories/entities/TagRepository';
 import { Injectable, BadRequestException } from '@nestjs/common';
 
 @Injectable()

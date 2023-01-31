@@ -1,6 +1,6 @@
+import { TagDto } from '../../tag/dto/TagDto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsDate } from 'class-validator';
-import { TagDto } from 'src/tag/dto/TagDto';
 
 export class CreateQuestionDto {
   @IsString()
