@@ -32,7 +32,7 @@ export class QuestionService {
 
   public async getAllQuestions() {
     try {
-      const questions = await this.questionRepository.getAllQuestions();
+      const questions = await this.questionRepository.findMany({});
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
@@ -60,9 +60,11 @@ export class QuestionService {
 
   public async getAllQuestionsByOwner(id: string) {
     try {
-      const questions = await this.questionRepository.getAllQuestionsByOwner(
-        id,
-      );
+      const questions = await this.questionRepository.findMany({
+        where: {
+          ownerId: id,
+        },
+      });
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
