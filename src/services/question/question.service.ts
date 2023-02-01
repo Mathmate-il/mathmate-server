@@ -1,8 +1,8 @@
-import { UserRepository } from './../repositories/entities/UserRepository';
-import { ServerError } from './../helpers/Errors.enums';
+import { UserRepository } from '../../repositories/entities/UserRepository';
+import { ServerError } from '../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { CreateQuestionDto } from './dto/CreateQuestionDto';
-import { QuestionRepository } from './../repositories/entities/QuestionRepository';
+import { QuestionRepository } from '../../repositories/entities/QuestionRepository';
 import { Injectable, BadRequestException } from '@nestjs/common';
 
 @Injectable()

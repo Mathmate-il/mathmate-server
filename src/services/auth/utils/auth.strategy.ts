@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '../../prisma/prisma.service';
-import { AppConfigService } from '../../config/config.service';
+import { AppConfigService } from '../../../config/config.service';
 import { AuthService } from '../auth.service';
 
 @Injectable({})
@@ -19,11 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     googleSub: string;
     clientCredentials: string;
   }) {
-    const user = await this.authService.validateUser(
-      payload.id,
-      payload.googleSub,
-      payload.clientCredentials,
-    );
+    const user = await this.authService.validateUser(payload.id);
 
     return user;
   }

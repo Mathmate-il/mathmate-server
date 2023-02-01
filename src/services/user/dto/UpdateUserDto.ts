@@ -1,5 +1,5 @@
-import { UpdateErrorMessages } from './../../helpers/Errors.enums';
-import { NotUpdatable } from '../../helpers/NotUpdatable';
+import { UpdateErrorMessages } from '../../../helpers/Errors.enums';
+import { NotUpdatable } from '../../../helpers/NotUpdatable';
 import { IsOptional, IsDate } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
