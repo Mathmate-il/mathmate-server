@@ -30,7 +30,7 @@ export class QuestionRepository extends Repository<
     question: CreateQuestionDto,
     userId: string,
   ): Promise<Question> {
-    const isTagValid = await this.checkIfTagsAreValid(question);
+    const isTagValid = await this.checkIfTagsAreValid(question.tags);
     if (!isTagValid) {
       throw new NotFoundException(TagErrorMessages.NotFound);
     }
@@ -51,6 +51,10 @@ export class QuestionRepository extends Repository<
   }
 
   public async getAllQuestionsByTags(tags: Tag[]): Promise<Question[]> {
+    const isTagValid = await this.checkIfTagsAreValid(tags);
+    if (!isTagValid) {
+      throw new NotFoundException(TagErrorMessages.NotFound);
+    }
     const questions = await this.prisma.question.findMany({
       where: {
         tags: { some: { id: { in: tags.map((tag) => tag.id) } } },
@@ -60,16 +64,16 @@ export class QuestionRepository extends Repository<
     return questions;
   }
 
-  private async checkIfTagsAreValid(question: CreateQuestionDto) {
+  private async checkIfTagsAreValid(tags: Tag[]) {
     try {
       const existingTags = await this.prisma.tag.findMany({
         where: {
           id: {
-            in: question.tags.map((tag) => tag.id),
+            in: tags.map((tag) => tag.id),
           },
         },
       });
-      if (existingTags.length !== question.tags.length) {
+      if (existingTags.length !== tags.length) {
         return null;
       }
       return existingTags;
