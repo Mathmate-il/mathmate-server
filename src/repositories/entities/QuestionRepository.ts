@@ -3,7 +3,7 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
-import { Prisma, Question } from '@prisma/client';
+import { Prisma, Question, Tag } from '@prisma/client';
 import { CreateQuestionDto } from '../../services/question/dto/CreateQuestionDto';
 
 @Injectable()
@@ -53,5 +53,29 @@ export class QuestionRepository extends Repository<
       },
       include: { tags: true },
     });
+  }
+
+  async getAllQuestions(): Promise<Question[]> {
+    const questions = await this.prisma.question.findMany();
+    return questions;
+  }
+
+  async getAllQuestionsByTags(tags: Tag[]): Promise<Question[]> {
+    const questions = await this.prisma.question.findMany({
+      where: {
+        tags: { some: { id: { in: tags.map((tag) => tag.id) } } },
+      },
+    });
+
+    return questions;
+  }
+
+  async getAllQuestionsByOwner(id: string): Promise<Question[]> {
+    const questions = await this.prisma.question.findMany({
+      where: {
+        ownerId: id,
+      },
+    });
+    return questions;
   }
 }

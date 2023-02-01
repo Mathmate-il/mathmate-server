@@ -6,9 +6,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  @ApiSecurity('oauth2')
-  async auth(@Req() req: Request): Promise<{ token: string }> {
-    const clientCredentials = req.headers['authorization'];
-    return await this.authService.auth(clientCredentials);
+  async auth(
+    @Headers('authorization') authorization: string,
+  ): Promise<{ token: string }> {
+    return await this.authService.auth(authorization);
   }
 }
