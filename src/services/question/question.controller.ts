@@ -20,23 +20,19 @@ export class QuestionController {
   }
 
   @Get('get-all')
-  @UseGuards(JwtGuard)
-  async getAllQuestions(@GetUser() user: UserDto): Promise<Question[]> {
-    return this.questionService.getAllQuestions(user.id);
+  async getAllQuestions(): Promise<Question[]> {
+    return this.questionService.getAllQuestions();
   }
 
   @Get('get-all-by-tags')
-  @UseGuards(JwtGuard)
   async getAllQuestionsByTags(
-    @GetUser() user: UserDto,
-    @Body() tags: Tag[],
+    @Body() { tags }: { tags: Tag[] },
   ): Promise<Question[]> {
-    return this.questionService.getAllQuestionsByTags(user.id, tags);
+    return this.questionService.getAllQuestionsByTags(tags);
   }
 
   @Get('get-all-by-owner')
-  @UseGuards(JwtGuard)
-  async getAllQuestionsByOwner(@GetUser() user: UserDto): Promise<Question[]> {
-    return this.questionService.getAllQuestionsByOwner(user.id);
+  async getAllQuestionsByOwner(@Body() { id }: { id: string }): Promise<any> {
+    return this.questionService.getAllQuestionsByOwner(id);
   }
 }

@@ -30,34 +30,29 @@ export class QuestionService {
     }
   }
 
-  public async getAllQuestions(id: string) {
+  public async getAllQuestions() {
     try {
-      const user = await this.userRepository.findOne({ id });
-
-      if (!user) {
+      const questions = await this.questionRepository.getAllQuestions();
+      if (questions.length) {
+        return questions;
+      } else {
         throw new NotFoundException(ServerError.NotFound);
       }
-
-      const questions = await this.questionRepository.getAllQuestions();
-      return questions;
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
   }
 
-  public async getAllQuestionsByTags(id: string, tags: Tag[]) {
+  public async getAllQuestionsByTags(tags: Tag[]) {
     try {
-      const user = await this.userRepository.findOne({ id });
-
-      if (!user) {
-        throw new NotFoundException(ServerError.NotFound);
-      }
-
       const questions = await this.questionRepository.getAllQuestionsByTags(
         tags,
       );
-
-      return questions;
+      if (questions.length) {
+        return questions;
+      } else {
+        throw new NotFoundException(ServerError.NotFound);
+      }
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
@@ -65,17 +60,15 @@ export class QuestionService {
 
   public async getAllQuestionsByOwner(id: string) {
     try {
-      const user = await this.userRepository.findOne({ id });
-
-      if (!user) {
-        throw new NotFoundException(ServerError.NotFound);
-      }
-
       const questions = await this.questionRepository.getAllQuestionsByOwner(
         id,
       );
 
-      return questions;
+      if (questions.length) {
+        return questions;
+      } else {
+        throw new NotFoundException(ServerError.NotFound);
+      }
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
