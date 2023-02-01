@@ -55,6 +55,7 @@ export class QuestionRepository extends Repository<
     });
   }
 
+
   async getAllQuestionsByTags(tags: Tag[]): Promise<Question[]> {
     const questions = await this.prisma.question.findMany({
       where: {
@@ -64,4 +65,5 @@ export class QuestionRepository extends Repository<
 
     return questions;
   }
+
 }
