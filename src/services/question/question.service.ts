@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { CreateQuestionDto } from './dto/CreateQuestionDto';
 import { QuestionRepository } from '../../repositories/entities/QuestionRepository';
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { Tag } from '@prisma/client';
 
 @Injectable()
 export class QuestionService {
@@ -24,6 +25,49 @@ export class QuestionService {
         user.id,
       );
       return createdQuestion;
+    } catch (error) {
+      throw new BadRequestException(ServerError.BadRequest);
+    }
+  }
+
+  public async getAllQuestions() {
+    try {
+      const questions = await this.questionRepository.getAllQuestions();
+
+      if (!questions) {
+        throw new NotFoundException(ServerError.NotFound);
+      }
+      return questions;
+    } catch (error) {
+      throw new BadRequestException(ServerError.BadRequest);
+    }
+  }
+
+  public async getAllQuestionsByTags(tags: Tag[]) {
+    try {
+      const questions = await this.questionRepository.getAllQuestionsByTags(
+        tags,
+      );
+
+      if (!questions) {
+        throw new NotFoundException(ServerError.NotFound);
+      }
+      return questions;
+    } catch (error) {
+      throw new BadRequestException(ServerError.BadRequest);
+    }
+  }
+
+  public async getAllQuestionsByOwner(id: string) {
+    try {
+      const questions = await this.questionRepository.getAllQuestionsByOwner(
+        id,
+      );
+
+      if (!questions) {
+        throw new NotFoundException(ServerError.NotFound);
+      }
+      return questions;
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
