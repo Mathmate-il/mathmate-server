@@ -33,10 +33,11 @@ export class QuestionService {
   public async getAllQuestions() {
     try {
       const questions = await this.questionRepository.getAllQuestions();
-      if (questions.length) {
-        return questions;
-      } else {
+
+      if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
+      } else {
+        return questions;
       }
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
@@ -48,10 +49,11 @@ export class QuestionService {
       const questions = await this.questionRepository.getAllQuestionsByTags(
         tags,
       );
-      if (questions.length) {
-        return questions;
-      } else {
+
+      if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
+      } else {
+        return questions;
       }
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
@@ -64,10 +66,10 @@ export class QuestionService {
         id,
       );
 
-      if (questions.length) {
-        return questions;
-      } else {
+      if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
+      } else {
+        return questions;
       }
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
