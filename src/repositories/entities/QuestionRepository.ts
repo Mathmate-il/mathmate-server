@@ -1,5 +1,8 @@
-import { TagErrorMessages } from './../../helpers/Errors.enums';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import { TagErrorMessages, ServerError } from './../../helpers/Errors.enums';
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common/exceptions';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
@@ -23,22 +26,14 @@ export class QuestionRepository extends Repository<
     this.questionServiceExtension = this.prisma.question;
   }
 
-  async createQuestionWithTags(
+  public async createQuestionWithTags(
     question: CreateQuestionDto,
     userId: string,
   ): Promise<Question> {
-    const existingTags = await this.prisma.tag.findMany({
-      where: {
-        id: {
-          in: question.tags.map((tag) => tag.id),
-        },
-      },
-    });
-
-    if (existingTags.length !== question.tags.length) {
+    const isTagValid = await this.checkIfTagsAreValid(question);
+    if (!isTagValid) {
       throw new NotFoundException(TagErrorMessages.NotFound);
     }
-
     return this.prisma.question.create({
       data: {
         ...question,
@@ -55,8 +50,7 @@ export class QuestionRepository extends Repository<
     });
   }
 
-
-  async getAllQuestionsByTags(tags: Tag[]): Promise<Question[]> {
+  public async getAllQuestionsByTags(tags: Tag[]): Promise<Question[]> {
     const questions = await this.prisma.question.findMany({
       where: {
         tags: { some: { id: { in: tags.map((tag) => tag.id) } } },
@@ -66,4 +60,21 @@ export class QuestionRepository extends Repository<
     return questions;
   }
 
+  private async checkIfTagsAreValid(question: CreateQuestionDto) {
+    try {
+      const existingTags = await this.prisma.tag.findMany({
+        where: {
+          id: {
+            in: question.tags.map((tag) => tag.id),
+          },
+        },
+      });
+      if (existingTags.length !== question.tags.length) {
+        return null;
+      }
+      return existingTags;
+    } catch (error) {
+      throw new UnprocessableEntityException(ServerError.DatabaseQueryError);
+    }
+  }
 }

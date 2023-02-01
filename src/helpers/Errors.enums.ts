@@ -4,6 +4,7 @@ export enum ServerError {
   Forbidden = 'Forbidden',
   NotFound = 'Not Found',
   InternalServerError = 'Internal Server Error',
+  DatabaseQueryError = 'Your request is missing required data',
 }
 
 export enum UpdateErrorMessages {
