@@ -36,9 +36,8 @@ export class QuestionService {
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
-      } else {
-        return questions;
       }
+      return questions;
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
@@ -52,9 +51,8 @@ export class QuestionService {
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
-      } else {
-        return questions;
       }
+      return questions;
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
@@ -68,9 +66,8 @@ export class QuestionService {
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
-      } else {
-        return questions;
       }
+      return questions;
     } catch (error) {
       throw new BadRequestException(ServerError.BadRequest);
     }
