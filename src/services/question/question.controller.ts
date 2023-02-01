@@ -19,19 +19,19 @@ export class QuestionController {
     return this.questionService.createQuestion(user.id, question);
   }
 
-  @Get('get-all')
+  @Get('all')
   async getAllQuestions(): Promise<Question[]> {
     return this.questionService.getAllQuestions();
   }
 
-  @Get('get-all-by-tags')
+  @Get('all/filterBy/tags')
   async getAllQuestionsByTags(
     @Body() { tags }: { tags: Tag[] },
   ): Promise<Question[]> {
     return this.questionService.getAllQuestionsByTags(tags);
   }
 
-  @Get('get-all-by-owner')
+  @Get('all/filterBy/owner')
   async getAllQuestionsByOwner(@Body() { id }: { id: string }): Promise<any> {
     return this.questionService.getAllQuestionsByOwner(id);
   }
