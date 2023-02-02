@@ -6,12 +6,14 @@ import { DocumentBuilder } from '@nestjs/swagger/dist';
 import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
-import * as cors from 'cors';
 import { seedTagTable } from './database/mathSubjects';
+import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.use(cors({ origin: '*', credentials: false }));
+  app.enableCors({
+    origin: '*',
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.use(
     helmet({

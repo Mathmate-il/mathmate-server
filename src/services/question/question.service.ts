@@ -1,10 +1,10 @@
+import { Tag } from '@prisma/client';
 import { UserRepository } from '../../repositories/entities/UserRepository';
 import { ServerError } from '../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { CreateQuestionDto } from './dto/CreateQuestionDto';
 import { QuestionRepository } from '../../repositories/entities/QuestionRepository';
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { Tag } from '@prisma/client';
 
 @Injectable()
 export class QuestionService {
@@ -32,9 +32,7 @@ export class QuestionService {
 
   public async getAllQuestions() {
     try {
-
       const questions = await this.questionRepository.findMany({});
-
 
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
