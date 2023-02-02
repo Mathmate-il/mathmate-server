@@ -3,14 +3,10 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { UserRepository } from '../../repositories/entities/UserRepository';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/UpdateUserDto';
-import { QuestionRepository } from 'src/repositories/entities/QuestionRepository';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly questionRepository: QuestionRepository,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   public async updateUser(id: string, body: UpdateUserDto) {
     try {
