@@ -1,7 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { returnJwtFromGoogleAuth } from '../../shared/returnJwt';
 import testService from '../../shared/testService';
 
 describe('UserController', () => {
@@ -16,7 +15,7 @@ describe('UserController', () => {
 
   describe('/users/me', () => {
     it('should return 200 with user data', async () => {
-      jwt = await returnJwtFromGoogleAuth(
+      jwt = await testService.getJwtFromGoogleClientCredentials(
         app,
         testService.getGoogleClientCredentials,
       );
