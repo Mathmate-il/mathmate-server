@@ -1,6 +1,6 @@
-import { INestApplication } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
+import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfigModule } from '../../src/config/config.module';
 import { PrismaModule } from '../../src/prisma/prisma.module';
@@ -32,7 +32,7 @@ export class TestService {
 
   public async getJwtFromGoogleClientCredentials(
     app: INestApplication,
-    credentials: string,
+    credentials: string | undefined,
   ): Promise<string> {
     const response = await request(app.getHttpServer())
       .post('/auth/login')
