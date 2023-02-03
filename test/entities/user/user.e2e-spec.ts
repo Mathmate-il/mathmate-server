@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common';
-import { createTestingModule } from '../../shared/createTestModule';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { returnJwtFromGoogleAuth } from '../../shared/returnJwt';
@@ -10,7 +9,7 @@ describe('UserController', () => {
   let jwt: string;
 
   beforeEach(async () => {
-    const module: TestingModule = await createTestingModule();
+    const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
     await app.init();
   });

@@ -1,6 +1,5 @@
 import testService from '../../shared/testService';
 import { INestApplication } from '@nestjs/common';
-import { createTestingModule } from './../../shared/createTestModule';
 import { TestingModule } from '@nestjs/testing';
 import { UnauthorizedError } from './utils/auth.errors';
 import * as request from 'supertest';
@@ -9,7 +8,7 @@ describe('AuthController & /users/me', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
-    const module: TestingModule = await createTestingModule();
+    const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
     await app.init();
   });
