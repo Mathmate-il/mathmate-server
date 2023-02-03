@@ -1,16 +1,8 @@
-import { JwtStrategy } from './../../../src/services/auth/utils/auth.strategy';
-import { JwtModule } from '@nestjs/jwt';
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from '../../../src/services/user/user.service';
-import { UserController } from '../../../src/services/user/user.controller';
+import { INestApplication } from '@nestjs/common';
+import { createTestingModule } from './../../shared/createTestModule';
+import { TestingModule } from '@nestjs/testing';
 import { googleClientCredentials } from './../../shared/auth.google';
 import { UnauthorizedError } from './utils/auth.errors';
-import { AppConfigModule } from './../../../src/config/config.module';
-import { PrismaModule } from './../../../src/prisma/prisma.module';
-import { RepositoriesModule } from './../../../src/repositories/repositories.module';
-import { AuthService } from './../../../src/services/auth/auth.service';
-import { AuthController } from './../../../src/services/auth/auth.controller';
-import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 
 describe('AuthController & /users/me', () => {
@@ -18,12 +10,7 @@ describe('AuthController & /users/me', () => {
   let jwt: string;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController, UserController],
-      providers: [AuthService, UserService, JwtStrategy],
-      imports: [RepositoriesModule, PrismaModule, AppConfigModule, JwtModule],
-    }).compile();
-
+    const module: TestingModule = await createTestingModule();
     app = module.createNestApplication();
     await app.init();
   });

@@ -1,4 +1,4 @@
-import { Tag } from '@prisma/client';
+import { TagDto } from '../tag/dto/TagDto';
 import { UserRepository } from '../../repositories/entities/UserRepository';
 import { ServerError } from '../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
@@ -43,7 +43,7 @@ export class QuestionService {
     }
   }
 
-  public async getAllQuestionsByTags(tags: Tag[]) {
+  public async getAllQuestionsByTags(tags: TagDto[]) {
     try {
       const questions = await this.questionRepository.getAllQuestionsByTags(
         tags,
