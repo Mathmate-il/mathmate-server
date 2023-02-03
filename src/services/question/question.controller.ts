@@ -1,5 +1,6 @@
+import { Question } from '@prisma/client';
+import { TagDto } from '../tag/dto/TagDto';
 import { JwtGuard } from './../auth/utils/auth.guard';
-import { Question, Tag } from '@prisma/client';
 import { UserDto } from './../user/dto/UserDto';
 import { GetUser } from './../auth/utils/getUser.decorator';
 import { CreateQuestionDto } from './dto/CreateQuestionDto';
@@ -26,7 +27,7 @@ export class QuestionController {
 
   @Get('all/filterBy/tags')
   async getAllQuestionsByTags(
-    @Body() { tags }: { tags: Tag[] },
+    @Body() { tags }: { tags: TagDto[] },
   ): Promise<Question[]> {
     return this.questionService.getAllQuestionsByTags(tags);
   }
