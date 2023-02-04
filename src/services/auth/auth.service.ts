@@ -55,10 +55,7 @@ export class AuthService {
 
       return this.signToken(user.id);
     } catch (error) {
-      if (error.message === 'Invalid credentials') {
-        throw new UnauthorizedException('Unauthorized');
-      }
-      throw error;
+      throw new UnauthorizedException(ServerError.Unauthorized);
     }
   }
 

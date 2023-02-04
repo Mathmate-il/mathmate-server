@@ -7,10 +7,8 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import * as fs from 'fs';
-import {
-  ServerError,
-  CustomHttpExceptionResponse,
-} from 'src/helpers/Errors.enums';
+import { ServerError } from 'src/helpers/Errors.enums';
+import { CustomHttpExceptionResponse } from 'src/helpers/Errors.interfaces';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -20,26 +18,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     let status: HttpStatus;
-    let errorMessage: ServerError;
+    let errorMessage: string;
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
-      const exeptionMessage = exception.message;
-
-      errorMessage =
-        exeptionMessage === 'Bad Request'
-          ? ServerError.BadRequest
-          : exeptionMessage === 'Unauthorized'
-          ? ServerError.Unauthorized
-          : exeptionMessage === 'Forbidden'
-          ? ServerError.Forbidden
-          : exeptionMessage === 'Not Found'
-          ? ServerError.NotFound
-          : exeptionMessage === 'Internal Server Error'
-          ? ServerError.InternalServerError
-          : exeptionMessage === 'Your request is missing required data'
-          ? ServerError.DatabaseQueryError
-          : ServerError.InternalServerError;
+      errorMessage = exception.message;
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       errorMessage = ServerError.InternalServerError;
@@ -53,7 +36,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   private getErrorResponse = (
     status: HttpStatus,
-    errorMessage: ServerError,
+    errorMessage: string,
     request: Request,
   ): CustomHttpExceptionResponse => ({
     statusCode: status,

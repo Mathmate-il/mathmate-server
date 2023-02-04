@@ -23,9 +23,8 @@ async function bootstrap() {
     }),
   );
 
-  const logStream = fs.createWriteStream('logs/api.log', {
-    flags: 'a', // append
-  });
+  const append = 'a';
+  const logStream = fs.createWriteStream('logs/api.log', { flags: append });
   app.use(morgan('tiny', { stream: logStream }));
 
   app.use((req, res, next) => {
