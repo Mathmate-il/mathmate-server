@@ -1,9 +1,9 @@
+import { PrismaService } from '../../prisma/prisma.service';
 import { TagErrorMessages, ServerError } from './../../helpers/Errors.enums';
 import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common/exceptions';
-import { PrismaService } from '../../prisma/prisma.service';
 import { Repository } from '../repository';
 import { Injectable } from '@nestjs/common';
 import { Prisma, Question, Tag } from '@prisma/client';
