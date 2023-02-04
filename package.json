@@ -103,7 +103,8 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/../src/$1",
-      "^@repositories/(.*)$": "<rootDir>/../src/repositories/entities/$1"
+      "^@repositories/(.*)$": "<rootDir>/../src/repositories/entities/$1",
+      "^@services/(.*)$": "<rootDir>/../src/services/$1"
     }
   }
 }

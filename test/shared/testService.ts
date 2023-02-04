@@ -4,14 +4,14 @@ import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfigModule } from '../../src/config/config.module';
 import { PrismaModule } from '../../src/prisma/prisma.module';
-import { JwtStrategy } from '../../src/services/auth/utils/auth.strategy';
-import { AuthService } from '../../src/services/auth/auth.service';
-import { UserService } from '../../src/services/user/user.service';
-import { UserController } from '../../src/services/user/user.controller';
-import { AuthController } from '../../src/services/auth/auth.controller';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { RepositoriesModule } from '@/repositories/repositories.module';
+import { AuthService } from '@/services/auth/auth.service';
+import { AuthController } from '@/services/auth/auth.controller';
+import { UserController } from '@/services/user/user.controller';
+import { UserService } from '@/services/user/user.service';
+import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
 
 export class TestService {
   constructor(

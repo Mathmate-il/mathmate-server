@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"],
-      "@repositories/*": ["src/repositories/entities/*"]
+      "@repositories/*": ["src/repositories/entities/*"],
+      "@services/*": ["src/services/*"]
     }
   }
 }
