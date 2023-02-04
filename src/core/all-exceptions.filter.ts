@@ -18,10 +18,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-
     let status: HttpStatus;
     let errorMessage: string;
-
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       errorMessage = exception.message;
@@ -29,13 +27,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       errorMessage = ServerError.InternalServerError;
     }
-
     const errorResponse = this.getErrorResponse(status, errorMessage, request);
     const errorLog = this.getErrorLog(errorResponse, request, exception);
     this.writeErrorLogToFile(errorLog);
     response.status(status).json(errorResponse);
   }
 
+  private get pathToLogsDir() {
+    return path.join(__dirname, '..', '..', 'logs');
+  }
   private getErrorResponse = (
     status: HttpStatus,
     errorMessage: string,
@@ -68,11 +68,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
   };
 
   public writeApiRequestsLogToFile = () => {
-    fs.mkdir(path.join(__dirname, '..', '..', 'logs'), (err) => {
-      if (err) throw new Error();
+    if (!fs.existsSync(this.pathToLogsDir)) {
+      fs.mkdir(path.join(this.pathToLogsDir), (err) => {
+        if (err) throw err;
+      });
+    }
+    fs.writeFile(this.pathToLogsDir + '/error.log', '', (err) => {
+      if (err) throw err;
     });
-    const append = 'a';
-    const logStream = fs.createWriteStream('logs/api.log', { flags: append });
+    fs.writeFile(this.pathToLogsDir + '/api.log', '', (err) => {
+      if (err) throw err;
+    });
+    const logStream = fs.createWriteStream('logs/api.log', { flags: 'a' });
     return morgan('tiny', { stream: logStream });
   };
 }
