@@ -1,5 +1,5 @@
+import { UserRepository } from '@/repositories/entities/UserRepository';
 import { ServerError } from '../../helpers/Errors.enums';
-import { UserRepository } from '../../repositories/entities/UserRepository';
 import { AppConfigService } from '../../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';

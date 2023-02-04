@@ -1,8 +1,8 @@
 import { ServerError } from '../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { UserRepository } from '../../repositories/entities/UserRepository';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/UpdateUserDto';
+import { UserRepository } from '@/repositories/entities/UserRepository';
 
 @Injectable()
 export class UserService {
