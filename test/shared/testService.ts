@@ -12,6 +12,7 @@ import { AuthController } from '@/services/auth/auth.controller';
 import { UserController } from '@/services/user/user.controller';
 import { UserService } from '@/services/user/user.service';
 import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export class TestService {
   constructor(
@@ -20,6 +21,15 @@ export class TestService {
 
   public get getGoogleClientCredentials() {
     return this.googleClientCredentials;
+  }
+  public async dropDbTables() {
+    const prisma = new PrismaClient();
+    try {
+      await prisma.$queryRaw(Prisma.sql`DROP SCHEMA public CASCADE;`);
+      await prisma.$queryRaw(Prisma.sql`CREATE SCHEMA public;`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async createTestModule() {
