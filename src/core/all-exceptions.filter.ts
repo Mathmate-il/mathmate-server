@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import * as fs from 'fs';
+import * as morgan from 'morgan';
 import { ServerError } from 'src/helpers/Errors.enums';
 import { CustomHttpExceptionResponse } from 'src/helpers/Errors.interfaces';
 
@@ -63,5 +64,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
     fs.appendFile('logs/error.log', errorLog, 'utf8', (err) => {
       if (err) throw err;
     });
+  };
+
+  public writeApiRequestsLogToFile = () => {
+    const append = 'a';
+    const logStream = fs.createWriteStream('logs/api.log', { flags: append });
+    return morgan('tiny', { stream: logStream });
   };
 }

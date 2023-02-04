@@ -6,10 +6,9 @@ import { DocumentBuilder } from '@nestjs/swagger/dist';
 import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './core/all-exceptions.filter';
 import { seedTagTable } from './database/mathSubjects';
 import 'reflect-metadata';
-import * as fs from 'fs';
-import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -23,9 +22,8 @@ async function bootstrap() {
     }),
   );
 
-  const append = 'a';
-  const logStream = fs.createWriteStream('logs/api.log', { flags: append });
-  app.use(morgan('tiny', { stream: logStream }));
+  const allExceptionsFilter = new AllExceptionsFilter();
+  app.use(allExceptionsFilter.writeApiRequestsLogToFile());
 
   app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
