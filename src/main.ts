@@ -1,8 +1,8 @@
+import { createSwaggerConfig } from './config/config.factory';
+import { AppConfigService } from './config/config.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { SwaggerModule } from '@nestjs/swagger';
-import { DocumentBuilder } from '@nestjs/swagger/dist';
 import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
@@ -11,42 +11,30 @@ import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({
-    origin: '*',
-  });
-  app.useGlobalPipes(new ValidationPipe());
-  app.use(
-    helmet({
-      contentSecurityPolicy: false,
-    }),
-  );
+  const publicPath = join(__dirname, '..', 'public');
+  const viewsPath = join(__dirname, '..', 'views');
 
+  app.enableCors({ origin: '*' });
+  app.useGlobalPipes(new ValidationPipe());
+  app.use(helmet());
   app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     next();
   });
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('Mathmate API')
-    .setVersion('1.0')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('swagger', app, document);
-  await app.listen(3001);
-
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.useStaticAssets(publicPath);
+  app.setBaseViewsDir(viewsPath);
   app.setViewEngine('hbs');
-
-  console.log(
-    '\x1b[1;34m 🚀 You can use the swagger UI in the following url: http://localhost:3001/swagger 🚀\x1b[0m',
-  );
-  console.log(
-    '\x1b[1;34m 🔑 You can get your google credentials in http://localhost:3001/dev/google/auth 🔑\x1b[0m',
-  );
-
+  createSwaggerConfig(app);
+  await app.listen(3000);
   seedTagTable();
+
+  console.log(
+    '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
+  );
+  console.log(
+    '\x1b[1;34m 🔑 Google credentials available at http://localhost:3000/dev/google/auth 🔑\x1b[0m',
+  );
 }
 
 bootstrap();
