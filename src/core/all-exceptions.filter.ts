@@ -74,8 +74,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         if (err) throw err;
       });
     }
-    const append = 'a';
-    const logStream = fs.createWriteStream('logs/api.log', { flags: append });
+    const logStream = fs.createWriteStream('logs/api.log', { flags: 'a' });
     return morgan('tiny', { stream: logStream });
   };
 }

@@ -8,10 +8,4 @@ export class GoogleController {
   root() {
     return { client: process.env.GOOGLE_CLIENT_ID };
   }
-
-  @Get('google/return')
-  @Render('google-return')
-  returnAuth() {
-    return 'Hello';
-  }
 }
