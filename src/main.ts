@@ -5,7 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './core/all-exceptions.filter';
+import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { seedTagTable } from './database/mathSubjects';
 import 'reflect-metadata';
 

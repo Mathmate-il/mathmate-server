@@ -10,7 +10,7 @@ import { DevModule } from './dev/dev.module';
 import { TagModule } from './services/tag/tag.module';
 import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceptionsFilter } from './core/all-exceptions.filter';
+import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 
 @Module({
   imports: [

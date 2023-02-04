@@ -25,9 +25,9 @@ describe('UserController', () => {
         .set('authorization', `Bearer ${jwt}`);
       const { body } = response;
       expect(body).toBeDefined();
+      expect(typeof body.name).toBe('string');
       expect(body.id).toMatch(UserEntriesTypes.isUUID);
       expect(body.email).toMatch(UserEntriesTypes.isEmail);
-      expect(typeof body.name).toBe('string');
       expect(body.image).toMatch(UserEntriesTypes.isURI);
     });
   });
