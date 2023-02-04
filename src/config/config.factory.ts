@@ -1,3 +1,5 @@
+import { INestApplication } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger/dist';
 import { ConfigFactory } from '@nestjs/config';
 
 export const configFactory: ConfigFactory<{ config: IConfiguration }> = () => {
@@ -26,6 +28,15 @@ export const configFactory: ConfigFactory<{ config: IConfiguration }> = () => {
       },
     },
   };
+};
+
+export const createSwaggerConfig = (app: INestApplication) => {
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Mathmate API')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('swagger', app, document);
 };
 
 export interface AppConfig {
