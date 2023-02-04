@@ -8,8 +8,9 @@ import {
 import { Response, Request } from 'express';
 import * as fs from 'fs';
 import * as morgan from 'morgan';
-import { ServerError } from 'src/helpers/Errors.enums';
-import { CustomHttpExceptionResponse } from 'src/helpers/Errors.interfaces';
+import { ServerError } from '../helpers/Errors.enums';
+import { CustomHttpExceptionResponse } from '../helpers/Errors.interfaces';
+import * as path from 'path';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -62,11 +63,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   private writeErrorLogToFile = (errorLog: string): void => {
     fs.appendFile('logs/error.log', errorLog, 'utf8', (err) => {
-      if (err) throw err;
+      if (err) throw new Error();
     });
   };
 
   public writeApiRequestsLogToFile = () => {
+    fs.mkdir(path.join(__dirname, '..', '..', 'logs'), (err) => {
+      if (err) throw new Error();
+    });
     const append = 'a';
     const logStream = fs.createWriteStream('logs/api.log', { flags: append });
     return morgan('tiny', { stream: logStream });
