@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import testService from '../../shared/testService';
+import { UserEntiresTypes } from './utils/user.enums';
 
 describe('UserController', () => {
   let app: INestApplication;
@@ -22,7 +23,12 @@ describe('UserController', () => {
       const response = await request(app.getHttpServer())
         .get('/users/me')
         .set('authorization', `Bearer ${jwt}`);
-      expect(response.body).toBeDefined();
+      const { body } = response;
+      expect(body).toBeDefined();
+      expect(body.id).toMatch(UserEntiresTypes.isUUID);
+      expect(body.email).toMatch(UserEntiresTypes.isEmail);
+      expect(typeof body.name).toBe('string');
+      expect(body.image).toMatch(UserEntiresTypes.isURI);
     });
   });
 });
