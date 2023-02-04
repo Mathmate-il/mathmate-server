@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:dev:docker": "concurrently \"npx prisma migrate dev\"  \"docker-compose up\"  \"cross-env NODE_ENV=docker nest start --watch\"",
+    "start:dev:docker": "concurrently \"npx prisma migrate dev\"  \"docker-compose up\"  \"nest start --watch\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "cross-env NODE_ENV=test && concurrently \" jest --config ./test/jest-e2e.json\" \"docker-compose up -d\"  \"npx prisma migrate dev\" ",
     "prepare": "husky install"
   },
   "dependencies": {
