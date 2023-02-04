@@ -5,14 +5,14 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './core/all-exceptions.filter';
 import { seedTagTable } from './database/mathSubjects';
 import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const publicPath = join(__dirname, '..', 'public');
-  const viewsPath = join(__dirname, '..', 'views');
-
+  const allExceptionsFilter = new AllExceptionsFilter();
+  app.use(allExceptionsFilter.writeApiRequestsLogToFile());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({ origin: '*' });
