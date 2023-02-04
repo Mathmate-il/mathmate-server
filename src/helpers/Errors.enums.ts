@@ -16,3 +16,14 @@ export enum UpdateErrorMessages {
 export enum TagErrorMessages {
   NotFound = 'One or more provided tags do not exist in the tags table',
 }
+
+export interface HttpExceptionResponse {
+  statusCode: number;
+  error: string;
+}
+
+export interface CustomHttpExceptionResponse extends HttpExceptionResponse {
+  path: string;
+  method: string;
+  timeStamp: Date;
+}

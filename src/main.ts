@@ -8,6 +8,8 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { seedTagTable } from './database/mathSubjects';
 import 'reflect-metadata';
+import * as fs from 'fs';
+import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,6 +22,11 @@ async function bootstrap() {
       contentSecurityPolicy: false,
     }),
   );
+
+  const logStream = fs.createWriteStream('logs/api.log', {
+    flags: 'a', // append
+  });
+  app.use(morgan('tiny', { stream: logStream }));
 
   app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');

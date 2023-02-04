@@ -33,7 +33,6 @@ export class QuestionService {
   public async getAllQuestions() {
     try {
       const questions = await this.questionRepository.findMany({});
-
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
       }
