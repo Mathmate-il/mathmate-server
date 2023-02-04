@@ -12,6 +12,8 @@ import 'reflect-metadata';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const allExceptionsFilter = new AllExceptionsFilter();
+  const publicPath = join(__dirname, '..', 'public');
+  const viewsPath = join(__dirname, '..', 'views');
   app.use(allExceptionsFilter.writeApiRequestsLogToFile());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.useGlobalPipes(new ValidationPipe());
@@ -21,7 +23,6 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   createSwaggerConfig(app);
   seedTagTable();
-
   await app.listen(3000);
   console.log(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
