@@ -68,9 +68,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
   };
 
   public writeApiRequestsLogToFile = () => {
-    fs.mkdir(path.join(__dirname, '..', '..', 'logs'), (err) => {
-      if (err) throw new Error();
-    });
+    const pathToLogs = path.join(__dirname, '..', '..', 'logs');
+    if (!fs.existsSync(pathToLogs)) {
+      fs.mkdir(path.join(__dirname, '..', '..', 'logs'), (err) => {
+        if (err) throw err;
+      });
+    }
     const append = 'a';
     const logStream = fs.createWriteStream('logs/api.log', { flags: append });
     return morgan('tiny', { stream: logStream });
