@@ -3,6 +3,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger/dist';
 import { ConfigFactory } from '@nestjs/config';
 
 export const configFactory: ConfigFactory<{ config: IConfiguration }> = () => {
+  let dbUrl: string;
+  if (process.env.NODE_ENV === 'dev') {
+    dbUrl = process.env.DATABASE_URL;
+  } else if (process.env.NODE_ENV === 'test') {
+    dbUrl = process.env.TEST_DATABASE_URL;
+  }
   return {
     config: {
       app: {
@@ -12,12 +18,7 @@ export const configFactory: ConfigFactory<{ config: IConfiguration }> = () => {
         },
       },
       database: {
-        url:
-          process.env.DATABASE_URL ||
-          'postgresql://postgres:postgres@postgres:5432/mathmate?schema=public',
-        docker_url:
-          process.env.DOCKER_DATABASE_URL ||
-          'postgresql://postgres:postgres@postgres:5432/mathmate?schema=public',
+        url: dbUrl,
       },
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID || 'Enter client id',
@@ -48,7 +49,6 @@ export interface AppConfig {
 
 export interface DatabaseConfig {
   url: string;
-  docker_url: string;
 }
 
 export interface GoogleConfig {
