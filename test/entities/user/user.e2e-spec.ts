@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import testService from '../../shared/testService';
-import { UserEntiresTypes } from './utils/user.enums';
+import { UserEntiresTypes } from './utils/user.validation';
 
 describe('UserController', () => {
   let app: INestApplication;
