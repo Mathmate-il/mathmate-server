@@ -1,5 +1,4 @@
 import { createSwaggerConfig } from './config/config.factory';
-import { AppConfigService } from './config/config.service';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -14,21 +13,16 @@ async function bootstrap() {
   const publicPath = join(__dirname, '..', 'public');
   const viewsPath = join(__dirname, '..', 'views');
 
-  app.enableCors({ origin: '*' });
+  app.use(helmet({ contentSecurityPolicy: false }));
   app.useGlobalPipes(new ValidationPipe());
-  app.use(helmet());
-  app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-    next();
-  });
-
+  app.enableCors({ origin: '*' });
   app.useStaticAssets(publicPath);
   app.setBaseViewsDir(viewsPath);
   app.setViewEngine('hbs');
   createSwaggerConfig(app);
-  await app.listen(3000);
   seedTagTable();
 
+  await app.listen(3000);
   console.log(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
   );
