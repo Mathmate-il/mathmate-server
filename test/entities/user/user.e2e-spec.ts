@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { UserInvalidJwtError } from './utils/user.errors';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
@@ -15,20 +14,11 @@ import {
 describe('UserController', () => {
   let app: INestApplication;
   let jwt: string;
-  let prisma: PrismaClient;
-  beforeAll(async () => {
-    prisma = new PrismaClient();
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
     await app.init();
-  });
-  afterAll(async () => {
-    testService.dropDbTables();
-    await prisma.$disconnect();
-    await app.close();
   });
 
   describe('/users/me', () => {
@@ -59,17 +49,6 @@ describe('UserController', () => {
       expect(response.status).toBe(200);
       expect(response.body.name).toMatch(validUpdateUserDto.name);
       expect(response.body.image).toMatch(validUpdateUserDto.image);
-    });
-
-    it('should return ', async () => {
-      return await request(app.getHttpServer())
-        .patch('/users/me/update')
-        .set('Accept', '*/*')
-        .set('authorization', `Bearer ${jwt}`)
-        .send(invalidUpdateUserDtoWithEmail)
-        .expect((res) => {
-          console.log(res.body);
-        });
     });
 
     it('should return 401 Unauthorized error when the authorization header is invalid', async () => {

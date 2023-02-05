@@ -21,7 +21,8 @@ export const NotUpdatable = (validationOptions?: ValidationOptions) => {
       validator: {
         validate(value: any, _args: ValidationArguments) {
           if (value !== undefined) {
-            throw new UnprocessableEntityException(`${value} is not updatable`);
+            return false;
+            // throw new UnprocessableEntityException(`${value} is not updatable`);
           }
           return true;
         },
