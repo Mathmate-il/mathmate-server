@@ -1,3 +1,5 @@
+import { UserInvalidJwtError } from './utils/user.errors';
+import { UnauthorizedError } from './../auth/utils/auth.errors';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
@@ -29,6 +31,15 @@ describe('UserController', () => {
       expect(body.id).toMatch(UserEntriesTypes.isUUID);
       expect(body.email).toMatch(UserEntriesTypes.isEmail);
       expect(body.image).toMatch(UserEntriesTypes.isURI);
+    });
+
+    it('should return 401 Unauthorized error when the authorization header is invalid', async () => {
+      const invalidJwt = 'invalid_jwt';
+      const response = await request(app.getHttpServer())
+        .get('/users/me')
+        .set('authorization', `Bearer ${invalidJwt}`);
+      expect(response.status).toEqual(401);
+      expect(response.body).toEqual(UserInvalidJwtError);
     });
   });
 });

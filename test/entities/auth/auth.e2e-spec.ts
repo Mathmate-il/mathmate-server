@@ -30,7 +30,9 @@ describe('AuthController', () => {
         .post('/auth/login')
         .set('authorization', 'invalid value')
         .expect(401)
-        .expect(UnauthorizedError);
+        .expect((res) => {
+          expect(res.body).toEqual(UnauthorizedError);
+        });
     });
 
     it('should return 201 with JWT token in return', async () => {
