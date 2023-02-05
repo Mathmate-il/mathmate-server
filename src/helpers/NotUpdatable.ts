@@ -1,3 +1,7 @@
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common/exceptions';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-types */
 import {
@@ -17,7 +21,7 @@ export const NotUpdatable = (validationOptions?: ValidationOptions) => {
       validator: {
         validate(value: any, _args: ValidationArguments) {
           if (value !== undefined) {
-            return false;
+            throw new UnprocessableEntityException(`${value} is not updatable`);
           }
           return true;
         },

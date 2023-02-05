@@ -3,7 +3,7 @@ const validUpdateUserDto = {
   image: 'https://example.com/jane-doe.jpg',
 };
 
-const invalidUpdateUserDto = {
+const invalidUpdateUserDtoWithEmail = {
   email: 'jane-doe@example.com',
 };
 
@@ -17,7 +17,7 @@ const invalidUpdateUserDtoWithCreatedAt = {
 
 export {
   validUpdateUserDto,
-  invalidUpdateUserDto,
+  invalidUpdateUserDtoWithEmail,
   invalidUpdateUserDtoWithCreatedAt,
   invalidUpdateUserDtoWithId,
 };

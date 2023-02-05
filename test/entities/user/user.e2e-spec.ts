@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { UserInvalidJwtError } from './utils/user.errors';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
@@ -6,19 +7,28 @@ import testService from '../../shared/testService';
 import { UserEntriesTypes } from './utils/user.validation';
 import {
   validUpdateUserDto,
-  invalidUpdateUserDto,
   invalidUpdateUserDtoWithCreatedAt,
   invalidUpdateUserDtoWithId,
+  invalidUpdateUserDtoWithEmail,
 } from './utils/user.cases';
 
 describe('UserController', () => {
   let app: INestApplication;
   let jwt: string;
+  let prisma: PrismaClient;
+  beforeAll(async () => {
+    prisma = new PrismaClient();
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
     await app.init();
+  });
+  afterAll(async () => {
+    testService.dropDbTables();
+    await prisma.$disconnect();
+    await app.close();
   });
 
   describe('/users/me', () => {
@@ -29,6 +39,7 @@ describe('UserController', () => {
       );
       const response = await request(app.getHttpServer())
         .get('/users/me')
+        .set('Accept', '*/*')
         .set('authorization', `Bearer ${jwt}`);
       const { body } = response;
       expect(200);
@@ -40,14 +51,24 @@ describe('UserController', () => {
     });
 
     it('should return 200 with the updated user information in res.body', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/users/me/update')
+        .set('Accept', '*/*')
+        .set('authorization', `Bearer ${jwt}`)
+        .send(validUpdateUserDto);
+      expect(response.status).toBe(200);
+      expect(response.body.name).toMatch(validUpdateUserDto.name);
+      expect(response.body.image).toMatch(validUpdateUserDto.image);
+    });
+
+    it('should return ', async () => {
       return await request(app.getHttpServer())
         .patch('/users/me/update')
+        .set('Accept', '*/*')
         .set('authorization', `Bearer ${jwt}`)
-        .send(validUpdateUserDto)
-        .expect(200)
+        .send(invalidUpdateUserDtoWithEmail)
         .expect((res) => {
-          expect(res.body.name).toBe(validUpdateUserDto.name);
-          expect(res.body.image).toBe(validUpdateUserDto.image);
+          console.log(res.body);
         });
     });
 

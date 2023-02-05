@@ -7,6 +7,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { seedTagTable } from './database/mathSubjects';
+import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 
 async function bootstrap() {
@@ -14,6 +15,8 @@ async function bootstrap() {
   const allExceptionsFilter = new AllExceptionsFilter();
   const publicPath = join(__dirname, '..', 'public');
   const viewsPath = join(__dirname, '..', 'views');
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
   app.use(allExceptionsFilter.writeApiRequestsLogToFile());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.useGlobalPipes(new ValidationPipe());
