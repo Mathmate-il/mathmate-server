@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { ServerError } from '../../helpers/Errors.enums';
-import { TagRepository } from '../../repositories/entities/TagRepository';
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { TagRepository } from '@/repositories/entities/TagRepository';
 
 @Injectable()
 export class TagService {

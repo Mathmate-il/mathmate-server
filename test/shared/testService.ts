@@ -1,17 +1,18 @@
-import { INestApplication } from '@nestjs/common';
+import { PrismaModule } from '../../src/prisma/prisma.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
+import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfigModule } from '../../src/config/config.module';
-import { PrismaModule } from '../../src/prisma/prisma.module';
-import { RepositoriesModule } from './../../src/repositories/repositories.module';
-import { JwtStrategy } from '../../src/services/auth/utils/auth.strategy';
-import { AuthService } from '../../src/services/auth/auth.service';
-import { UserService } from '../../src/services/user/user.service';
-import { UserController } from '../../src/services/user/user.controller';
-import { AuthController } from '../../src/services/auth/auth.controller';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
+import { RepositoriesModule } from '@/repositories/repositories.module';
+import { AuthService } from '@/services/auth/auth.service';
+import { AuthController } from '@/services/auth/auth.controller';
+import { UserController } from '@/services/user/user.controller';
+import { UserService } from '@/services/user/user.service';
+import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export class TestService {
   constructor(
@@ -20,6 +21,15 @@ export class TestService {
 
   public get getGoogleClientCredentials() {
     return this.googleClientCredentials;
+  }
+  public async dropDbTables() {
+    const prisma = new PrismaClient();
+    try {
+      await prisma.$queryRaw(Prisma.sql`DROP SCHEMA public CASCADE;`);
+      await prisma.$queryRaw(Prisma.sql`CREATE SCHEMA public;`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async createTestModule() {
@@ -32,7 +42,7 @@ export class TestService {
 
   public async getJwtFromGoogleClientCredentials(
     app: INestApplication,
-    credentials: string,
+    credentials: string | undefined,
   ): Promise<string> {
     const response = await request(app.getHttpServer())
       .post('/auth/login')

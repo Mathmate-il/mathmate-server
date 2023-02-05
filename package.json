@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:dev:docker": "concurrently \"npx prisma migrate dev\"  \"docker-compose up\"  \"cross-env NODE_ENV=docker nest start --watch\"",
+    "start:dev:docker": "concurrently \"npx prisma migrate dev\"  \"docker-compose up\"  \"nest start --watch\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "cross-env NODE_ENV=test && concurrently \" jest --config ./test/jest-e2e.json\" \"docker-compose up -d\"  \"npx prisma migrate dev\" ",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -45,6 +45,7 @@
     "google-auth-library": "^8.7.0",
     "hbs": "^4.2.0",
     "helmet": "^6.0.1",
+    "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
@@ -63,6 +64,7 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^16.0.0",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-jwt": "^3.0.8",
@@ -100,6 +102,11 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/../src/$1",
+      "^@repositories/(.*)$": "<rootDir>/../src/repositories/entities/$1",
+      "^@services/(.*)$": "<rootDir>/../src/services/$1"
+    }
   }
 }
