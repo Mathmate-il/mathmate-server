@@ -1,3 +1,4 @@
+import { BadRequestError } from './../../shared/errors';
 import { UserInvalidJwtError } from './utils/user.errors';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
@@ -49,6 +50,36 @@ describe('UserController', () => {
       expect(response.status).toBe(200);
       expect(response.body.name).toMatch(validUpdateUserDto.name);
       expect(response.body.image).toMatch(validUpdateUserDto.image);
+    });
+
+    it('should return 400 with bad request message for createdAt updating', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/users/me/update')
+        .set('Accept', '*/*')
+        .set('authorization', `Bearer ${jwt}`)
+        .send(invalidUpdateUserDtoWithCreatedAt);
+      expect(400);
+      expect(response.body).toEqual(BadRequestError);
+    });
+
+    it('should return 400 with bad request message for email updating', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/users/me/update')
+        .set('Accept', '*/*')
+        .set('authorization', `Bearer ${jwt}`)
+        .send(invalidUpdateUserDtoWithEmail);
+      expect(400);
+      expect(response.body).toEqual(BadRequestError);
+    });
+
+    it('should return 400 with bad request message for id updating', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/users/me/update')
+        .set('Accept', '*/*')
+        .set('authorization', `Bearer ${jwt}`)
+        .send(invalidUpdateUserDtoWithId);
+      expect(400);
+      expect(response.body).toEqual(BadRequestError);
     });
 
     it('should return 401 Unauthorized error when the authorization header is invalid', async () => {

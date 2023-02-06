@@ -4,7 +4,7 @@ const validUpdateUserDto = {
 };
 
 const invalidUpdateUserDtoWithEmail = {
-  email: 'jane-doe@example.com',
+  email: 'random',
 };
 
 const invalidUpdateUserDtoWithId = {
@@ -12,7 +12,7 @@ const invalidUpdateUserDtoWithId = {
 };
 
 const invalidUpdateUserDtoWithCreatedAt = {
-  createdAt: new Date(),
+  createdAt: 'new Date()',
 };
 
 export {

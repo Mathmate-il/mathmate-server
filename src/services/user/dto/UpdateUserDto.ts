@@ -1,11 +1,10 @@
 import { UpdateErrorMessages } from '../../../helpers/Errors.enums';
-import { NotUpdatable } from '../../../helpers/NotUpdatable';
-import { IsOptional, IsDate } from '@nestjs/class-validator';
+import { IsOptional, IsDate, IsEmpty } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
   @IsOptional()
-  @NotUpdatable({ message: UpdateErrorMessages.EmailNotUpdatable })
+  @IsEmpty({ message: UpdateErrorMessages.EmailNotUpdatable })
   @ApiProperty()
   email?: string;
 
@@ -13,13 +12,13 @@ export class UpdateUserDto {
   image?: string;
 
   @IsOptional()
-  @NotUpdatable({ message: UpdateErrorMessages.IdNotUpdatable })
+  @IsEmpty({ message: UpdateErrorMessages.IdNotUpdatable })
   @ApiProperty()
   id?: string;
 
   @IsOptional()
   @IsDate()
-  @NotUpdatable({ message: UpdateErrorMessages.CreatedAtNotUpdatable })
+  @IsEmpty({ message: UpdateErrorMessages.CreatedAtNotUpdatable })
   @ApiProperty()
   createdAt?: Date;
 
