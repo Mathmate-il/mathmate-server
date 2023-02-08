@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/prisma/prisma.service';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaService();
 export const mathSubjects = [
   'Algebra',
   'Calculus',
@@ -24,14 +24,14 @@ export const mathSubjects = [
 ];
 
 export async function seedTagTable() {
-  for (const subject of mathSubjects) {
-    const existingTag = await prisma.tag.findFirst({
-      where: { tagName: subject },
-    });
-    if (!existingTag) {
-      await prisma.tag.create({
-        data: { tagName: subject },
-      });
-    }
-  }
+  // for (const subject of mathSubjects) {
+  //   const existingTag = await prisma.tag.findFirst({
+  //     where: { tagName: subject },
+  //   });
+  //   if (!existingTag) {
+  //     await prisma.tag.create({
+  //       data: { tagName: subject },
+  //     });
+  //   }
+  // }
 }

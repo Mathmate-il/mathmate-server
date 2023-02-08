@@ -21,6 +21,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: mathmate-test
     expose:
-      - '5555'
+      - '5000'
     ports:
-      - '5555:5432'
+      - '5000:5432'
