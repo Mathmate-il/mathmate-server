@@ -3,7 +3,6 @@ import { PrismaModule } from '../../src/prisma/prisma.module';
 require('dotenv').config();
 import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AppConfigModule } from '../../src/config/config.module';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { RepositoriesModule } from '@/repositories/repositories.module';
@@ -36,7 +35,7 @@ export class TestService {
     return await Test.createTestingModule({
       controllers: [AuthController, UserController],
       providers: [AuthService, UserService, JwtStrategy],
-      imports: [RepositoriesModule, PrismaModule, AppConfigModule, JwtModule],
+      imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();
   }
 

@@ -2,7 +2,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from './prisma/prisma.module';
 import { Module } from '@nestjs/common';
 import { AuthModule } from './services/auth/auth.module';
-import { AppConfigModule } from './config/config.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { RepositoriesModule } from './repositories/repositories.module';
 import { UserModule } from './services/user/user.module';
@@ -14,7 +13,6 @@ import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 
 @Module({
   imports: [
-    AppConfigModule,
     AuthModule,
     PrismaModule,
     RepositoriesModule,

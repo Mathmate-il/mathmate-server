@@ -1,6 +1,5 @@
 import { UserRepository } from '@/repositories/entities/UserRepository';
 import { ServerError } from '../../helpers/Errors.enums';
-import { AppConfigService } from '../../config/config.service';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { OAuth2Client } from 'google-auth-library';
 import {
@@ -9,18 +8,18 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import config from '@/config/config.singleton';
 
 @Injectable()
 export class AuthService {
   private oAuthClient: OAuth2Client;
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly config: AppConfigService,
     private readonly jwt: JwtService,
   ) {
     this.oAuthClient = new OAuth2Client(
-      this.config.getConfig().google.clientId,
-      this.config.getConfig().google.clientSecret,
+      config.googleClientId,
+      config.googleSecret,
     );
   }
 
@@ -76,7 +75,7 @@ export class AuthService {
       id: userId,
     };
     const token = await this.jwt.signAsync(payload, {
-      secret: this.config.getConfig().jwt.secret,
+      secret: config.jwtSecret,
     });
 
     return { token };
