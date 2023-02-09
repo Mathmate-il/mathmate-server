@@ -1,3 +1,4 @@
+import { TagController } from './../../src/services/tag/tag.controller';
 import { PrismaModule } from '../../src/prisma/prisma.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
@@ -12,6 +13,7 @@ import { UserController } from '@/services/user/user.controller';
 import { UserService } from '@/services/user/user.service';
 import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
 import { Prisma, PrismaClient } from '@prisma/client';
+import { TagService } from '@/services/tag/tag.service';
 
 export class TestService {
   constructor(
@@ -33,8 +35,8 @@ export class TestService {
 
   public async createTestModule() {
     return await Test.createTestingModule({
-      controllers: [AuthController, UserController],
-      providers: [AuthService, UserService, JwtStrategy],
+      controllers: [AuthController, UserController, TagController],
+      providers: [AuthService, UserService, JwtStrategy, TagService],
       imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();
   }
