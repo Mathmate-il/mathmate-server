@@ -10,9 +10,11 @@ import { TagModule } from './services/tag/tag.module';
 import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './dev/all-exceptions.filter';
+import { AppLoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
+    AppLoggerModule,
     AuthModule,
     PrismaModule,
     RepositoriesModule,
