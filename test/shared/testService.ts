@@ -1,7 +1,9 @@
 import { TagController } from './../../src/services/tag/tag.controller';
 import { PrismaModule } from '../../src/prisma/prisma.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
+require('dotenv').config({
+  path: '.env.test',
+});
 import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
