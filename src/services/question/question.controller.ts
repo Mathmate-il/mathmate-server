@@ -11,8 +11,8 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
-  @Post('create')
   @UseGuards(JwtGuard)
+  @Post('create')
   async createQuestion(
     @GetUser() user: UserDto,
     @Body() question: CreateQuestionDto,
