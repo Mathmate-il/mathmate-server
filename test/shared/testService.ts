@@ -14,7 +14,7 @@ import { AuthController } from '@/services/auth/auth.controller';
 import { UserController } from '@/services/user/user.controller';
 import { UserService } from '@/services/user/user.service';
 import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Tag } from '@prisma/client';
 import { TagService } from '@/services/tag/tag.service';
 import { QuestionController } from '@/services/question/question.controller';
 import { QuestionService } from '@/services/question/question.service';
@@ -64,6 +64,14 @@ export class TestService {
       .post('/auth/login')
       .set('authorization', credentials);
     return response.body.token;
+  }
+
+  public async getAllTags(app: INestApplication): Promise<Tag[]> {
+    const { body } = await request(app.getHttpServer()).get('/tag/all');
+    const tags = body.map((tag: Tag) => {
+      return { id: tag.id };
+    });
+    return tags;
   }
 }
 

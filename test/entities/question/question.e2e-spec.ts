@@ -4,19 +4,19 @@ import testService from '../../shared/testService';
 import * as request from 'supertest';
 import {
   inValidCreateQuestionDto,
-  inValidOwnerId,
-  inValidTags,
   validCreateQuestionDto,
-  validTags,
+  inValidTagsDto,
+  validTagsDto,
+  validOwnerIdDto,
+  inValidOwnerIdDto,
 } from './utils/question.cases';
 import { NotFoundTagError, NotFoundError } from './utils/question.errors';
+import { Tag } from '@prisma/client';
 
 describe('QuestionController', () => {
   let app: INestApplication;
   let jwt: string;
-  let validOwnerId: { id: string } = {
-    id: '',
-  };
+  let tags: Tag[];
 
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
@@ -31,11 +31,16 @@ describe('QuestionController', () => {
         testService.getGoogleClientCredentials,
       );
 
+      tags = await testService.getAllTags(app);
+
+      validCreateQuestionDto.tags[0].id = tags[0].id;
+      validCreateQuestionDto.tags[1].id = tags[1].id;
+
       const response = await request(app.getHttpServer())
         .post('/question/create')
         .set('Authorization', `Bearer ${jwt}`)
         .send(validCreateQuestionDto);
-      validOwnerId.id = response.body.ownerId;
+      validOwnerIdDto.id = response.body.ownerId;
       expect(response.status).toBe(201);
       expect(response.body.title).toMatch(validCreateQuestionDto.title);
       expect(typeof response.body.ownerId).toBe('string');
@@ -62,9 +67,12 @@ describe('QuestionController', () => {
     });
 
     it('Should return all the questions filtered by tags', async () => {
+      validTagsDto.tags[0].id = tags[0].id;
+      validTagsDto.tags[1].id = tags[1].id;
+
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/tags')
-        .send(validTags);
+        .send(validTagsDto);
       expect(response.status).toBe(200);
       expect(response.body.length).toBeGreaterThan(0);
     });
@@ -72,7 +80,7 @@ describe('QuestionController', () => {
     it('Should return 404 Not Found if tag input is invalid', async () => {
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/tags')
-        .send(inValidTags);
+        .send(inValidTagsDto);
       expect(response.status).toBe(404);
       expect(response.body).toEqual(NotFoundTagError);
     });
@@ -80,7 +88,7 @@ describe('QuestionController', () => {
     it('Should return all the questions filtered by OwnerId', async () => {
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/owner')
-        .send(validOwnerId);
+        .send(validOwnerIdDto);
       expect(response.status).toBe(200);
       expect(response.body.length).toBeGreaterThan(0);
     });
@@ -88,7 +96,7 @@ describe('QuestionController', () => {
     it('Should return an 404 NotFound when ownerId does not exist', async () => {
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/owner')
-        .send(inValidOwnerId);
+        .send(inValidOwnerIdDto);
       expect(response.status).toBe(404);
       expect(response.body).toEqual(NotFoundError);
     });
