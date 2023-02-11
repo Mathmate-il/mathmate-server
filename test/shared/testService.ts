@@ -16,6 +16,8 @@ import { UserService } from '@/services/user/user.service';
 import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { TagService } from '@/services/tag/tag.service';
+import { QuestionController } from '@/services/question/question.controller';
+import { QuestionService } from '@/services/question/question.service';
 
 export class TestService {
   constructor(
@@ -37,8 +39,19 @@ export class TestService {
 
   public async createTestModule() {
     return await Test.createTestingModule({
-      controllers: [AuthController, UserController, TagController],
-      providers: [AuthService, UserService, JwtStrategy, TagService],
+      controllers: [
+        AuthController,
+        UserController,
+        TagController,
+        QuestionController,
+      ],
+      providers: [
+        AuthService,
+        UserService,
+        JwtStrategy,
+        TagService,
+        QuestionService,
+      ],
       imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();
   }

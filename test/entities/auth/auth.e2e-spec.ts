@@ -3,7 +3,6 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { UnauthorizedError } from './utils/auth.errors';
 import * as request from 'supertest';
-import { PrismaClient } from '@prisma/client';
 
 describe('AuthController', () => {
   let app: INestApplication;

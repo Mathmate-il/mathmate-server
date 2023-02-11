@@ -39,6 +39,7 @@ export class AuthService {
   public async auth(clientCredentials: string) {
     try {
       const { email, name, picture } = await this.googleAuth(clientCredentials);
+
       const user = await this.userRepository.findOne({
         email: email,
       });
@@ -64,6 +65,7 @@ export class AuthService {
         idToken: clientCredentials,
         audience: process.env.GOOGLE_CLIENT_ID,
       });
+
       return ticket.getPayload();
     } catch (error) {
       throw new NotFoundException(ServerError.NotFound);
