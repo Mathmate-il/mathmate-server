@@ -14,7 +14,7 @@ import { NotFoundTagError, NotFoundError } from './utils/question.errors';
 describe('QuestionController', () => {
   let app: INestApplication;
   let jwt: string;
-  let validOwnerId: { id: string } = {
+  const validOwnerId: { id: string } = {
     id: '',
   };
 
