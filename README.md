@@ -92,6 +92,8 @@ Start the server
 npm run start:dev
 ```
 
+_For windows users run this from git bash_
+
 Start prisma studio
 
 ```bash
