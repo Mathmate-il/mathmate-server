@@ -8,11 +8,11 @@
   "scripts": {
     "db:dev:rm": "docker-compose rm db -s -f -v",
     "db:dev:up": "docker-compose up db -d",
-    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && timeout /t 4 && prisma migrate deploy",
+    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 4 && prisma migrate deploy",
     "db:test:rm": "docker-compose rm db-test -s -f -v",
     "db:test:up": "docker-compose up db-test -d",
     "db:test:prisma": "dotenv --e .env.tst -- prisma migrate deploy",
-    "db:test:restart": "npm run db:test:rm && npm run db:test:up && timeout /t 4 && npm run db:test:prisma",
+    "db:test:restart": "npm run db:test:rm && npm run db:test:up && sleep 4 && npm run db:test:prisma",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

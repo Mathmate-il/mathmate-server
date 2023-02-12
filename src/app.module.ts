@@ -11,7 +11,8 @@ import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { DatabaseSeeder } from './database/seeder';
-import { BookmarkController } from './bookmark/bookmark.controller';
+import { AnswerModule } from './services/answer/answer.module';
+import { BookmarkModule } from './services/bookmark/bookmark.module';
 
 @Module({
   imports: [
@@ -27,6 +28,8 @@ import { BookmarkController } from './bookmark/bookmark.controller';
     UserModule,
     TagModule,
     QuestionModule,
+    AnswerModule,
+    BookmarkModule,
   ],
   providers: [
     {
@@ -35,6 +38,5 @@ import { BookmarkController } from './bookmark/bookmark.controller';
     },
     DatabaseSeeder,
   ],
-  controllers: [BookmarkController],
 })
 export class AppModule {}
