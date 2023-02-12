@@ -17,6 +17,5 @@ export class TagRepository extends Repository<
   >;
   constructor(prisma: PrismaService) {
     super(prisma, 'tag');
-    this.tagServiceExtension = this.prisma.tag;
   }
 }

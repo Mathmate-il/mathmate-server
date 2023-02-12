@@ -17,6 +17,5 @@ export class AnswerRepository extends Repository<
   >;
   constructor(prisma: PrismaService) {
     super(prisma, 'answer');
-    this.answerServiceExtension = this.prisma.answer;
   }
 }
