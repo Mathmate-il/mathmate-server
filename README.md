@@ -29,20 +29,20 @@
 - Incorporating a scoring and badge system to enhance reliability based on collected data.
 - Expanding our math subjects to more advanced topics such as Geometry, graphs, etc.
 
-  **Phase 3: // Expected timeline: Year 2.5**
+**Phase 3: // Expected timeline: Year 2.5**
 
 - A data-driven approach to filtering and querying questions and providing smart suggestions.
 
-  **Phase 4: // Expected timeline: Year 4**
+**Phase 4: // Expected timeline: Year 4**
 
 - Allowing selected users (based on data) to create challenging math problems with pre-defined solutions, similar to LeetCode.
 - Integrating a math calculator with LaTex support.
 
-  **Phase 5: // Expected timeline: At least Year 6**
+**Phase 5: // Expected timeline: At least Year 6**
 
 - Incorporating a proof-assistant tool.
 
-  **Phase 6: // Expected timeline: At least Year 8**
+**Phase 6: // Expected timeline: At least Year 8**
 
 - The ultimate goal: MathmateNLP.
 
