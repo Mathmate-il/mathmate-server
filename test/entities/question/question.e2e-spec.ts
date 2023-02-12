@@ -17,7 +17,6 @@ describe('QuestionController', () => {
   let app: INestApplication;
   let jwt: string;
   let tags: Tag[];
-
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
@@ -30,12 +29,9 @@ describe('QuestionController', () => {
         app,
         testService.getGoogleClientCredentials,
       );
-
       tags = await testService.getAllTags(app);
-
       validCreateQuestionDto.tags[0].id = tags[0].id;
       validCreateQuestionDto.tags[1].id = tags[1].id;
-
       const response = await request(app.getHttpServer())
         .post('/question/create')
         .set('Authorization', `Bearer ${jwt}`)
@@ -69,7 +65,6 @@ describe('QuestionController', () => {
     it('Should return all the questions filtered by tags', async () => {
       validTagsDto.tags[0].id = tags[0].id;
       validTagsDto.tags[1].id = tags[1].id;
-
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/tags')
         .send(validTagsDto);

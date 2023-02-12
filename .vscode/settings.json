@@ -1,6 +1,6 @@
 {
   "prisma.fileWatcher": true,
   "cSpell.words": ["datasources", "Iauth", "Mathmate", "nestjs", "signin"],
-  "editor.fontSize": 13,
+  "editor.fontSize": 16,
   "editor.fontFamily": "Fira Code"
 }
