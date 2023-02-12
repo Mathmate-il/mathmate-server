@@ -11,6 +11,7 @@ import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { DatabaseSeeder } from './database/seeder';
+import { BookmarkController } from './bookmark/bookmark.controller';
 
 @Module({
   imports: [
@@ -34,5 +35,6 @@ import { DatabaseSeeder } from './database/seeder';
     },
     DatabaseSeeder,
   ],
+  controllers: [BookmarkController],
 })
 export class AppModule {}
