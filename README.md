@@ -1,112 +1,114 @@
 # Mathmate
 
+## Badges
+
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ![node](https://img.shields.io/badge/node-16.13.1-green)
 ![npm](https://img.shields.io/badge/npm-8.1.2-green)
 ![PRs](https://img.shields.io/badge/PRs-Welcome-green)
 
-**version: v0.0.1**
+## Vision
+
+**Join us on a journey to revolutionize math education, where we use the combined strengths of community and collaboration to make math not just accessible, but practical and yes, even enjoyable!**
 
 ## Table of contents
 
-1. [Clone](#clone)
-2. [Setup](#setup)
-3. [Workflow](#workflow)
-4. [Conventions](#conventions)
+1. [Timeline](#timeline)
+2. [Run locally](#run-locally)
+3. [Contributors](#contributors)
 
-## Our vision
+## Timeline <a name='timeline' />
 
-**Our mission is to make math accessible, practical and fun, by utilizing the power of community and collaboration.**
+**Phase 1: // Expected timeline: Year 1**
 
----
+- A community-driven forum where anyone can ask math-related questions using a user-friendly interface.
+- Implementing a tagging system for data collection for future use.
 
-## Project overview
+**Phase 2: // Expected timeline: Year 2**
 
-**Stage 1:** // Time estimated from the start - 1 year
+- Incorporating a scoring and badge system to enhance reliability based on collected data.
+- Expanding our math subjects to more advanced topics such as Geometry, graphs, etc.
+  **Phase 3: // Expected timeline: Year 2.5**
 
-- Community based forum where anyone can ask math-related questions using a well suited interface.
-- Implementing tagging system to collect data for future needs
+- A data-driven approach to filtering and querying questions and providing smart suggestions.
+  **Phase 4: // Expected timeline: Year 4**
 
-**Stage 2:** // Time estimated from the start - 2 year
+- Allowing selected users (based on data) to create challenging math problems with pre-defined solutions, similar to LeetCode.
+- Integrating a math calculator with LaTex support.
+  **Phase 5: // Expected timeline: At least Year 6**
 
-- Implementing a scoring and badging system to increase reliability based on collected data.
-- Expanding our math subjects to more complex interfaces such as: Geometry, graphs, etc.
+- Incorporating a proof-assistant tool.
+  **Phase 6: // Expected timeline: At least Year 8**
 
-**Stage 3:** // Time estimated from the start - 2.5 year
+- The ultimate goal: MathmateNLP.
 
-- Data driven filtering and querying of questions & smart suggestions.
+## Tech Stack
 
-**Stage 4:** // Time estimated from the start - 4 year
+Node, TypeScript, Prisma, Docker, Jest, PostgreSQL.
 
-- Allowing specific users (Based on data) to create LeetCode-like math questions with pre-defined solutions.
-- Embedded math calculator with LaTex support.
+## Features
 
-**Stage 5:** // Time estimated from the start - At least 6 years
+- Create a user with google oauth2.0 on one click + jwt authentication
+- Post math questions and filter by tags
 
-- Embedded proof-assistant.
+## Run Locally <a name='run-locally' />
 
-**Stage 6:** // Time estimated from the start - At least 8 years
+**You must have docker & node installed on your machine**
 
-- MathmateNLP (The golden goal)
+For Hebrew speakers here is some short tutorials (Not all updated): [Tutorials](https://www.youtube.com/playlist?list=PLHhHN29St7TV5thp8GI9sRdrm2EZc46wC)
 
----
+Clone the project
 
-## How to contribute
+```bash
+git clone https://github.com/Mathmate-il/mathmate-server.git
+```
 
-### Clone & Install <a name="clone"></a>
+Go to the project directory
 
-- Make sure you have node v16.13.1 and npm 8.1.2 (Or above)
-- Fork the repo to your github  
-  `git clone https://github.com/Mathmate-il/Mathmate-server.git`
-  `npm install`
+```bash
+cd mathmate-server
+```
 
----
+Install dependencies
 
-### Setup <a name="setup"></a>
+```bash
+npm install
+```
 
-- Install postgreSQL **v15** with **pgadmin4** --- **Make sure you remember the password !**
-- Create a database in your pgadmin4 ->[A short youtube tutorial](https://www.youtube.com/watch?v=VHkY2QqW2iE&t=5s)
-- Download vsCode Prisma extension here [Link](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)
-- Create a user in OAuth2 google and create a connection -> [How to set up google auth](https://www.youtube.com/watch?v=3dLLVjmH9Nw&list=PLHhHN29St7TV5thp8GI9sRdrm2EZc46wC&index=4)
-- Update the .env with your credentials and DATABASE_URL, look at `src/auth/auth.service` for the names.
-- Run `prisma migrate dev` this will migrate the Prisma schemas into you local DB.
+Start the server
 
----
+```bash
+npm run start:dev
+```
 
-### Workflow <a name="workflow"></a>
+Start prisma studio
 
-- Connect in the discord channel to your relevant team (FE\BE\QA\UX-UI).
-- Get your first issue and open a branch for it.
-- Before any pull-request make sure your branch is up-to-date `git pull` & `git merge --squash main`
+```bash
+npx prisma studio
+```
 
----
+_Note: Install the prisma vsCode extension_
 
-### Conventions <a name="conventions"></a>
+Run automated e2e tests (That's all we have so far)
 
-- Create functions as global as possible (Generic, reusable)
-- Readable and descriptive names to your functions and variables (Don't use "and", function is single tasked)
-- A function name must start with a verb. (create, handle, delete, update, check, etc.)
-- Variable must be a nouns, don't use acronyms! (don't: cds, uss, ion <----> do: cards, users, isOpen)
-- We already implemented pre-commit linting using husky, here is the allowed conventions,
-  the syntax for your commits will be the following: `git commit -am "type: message"`
-  All the allowed types:
+```bash
+npm run test:e2e
+```
 
-  [ build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test ]
+**You must set GOOGLE_CLIENT_CREDENTIALS in .env.test to run e2e tests successfully**
 
-  **Please follow the instructions**
+## Environment Variables
 
-## Where to find us
+**Please look at .env.example**
 
-[Discord channel](https://discord.gg/ysffT6BpX7)
+## Acknowledgements
 
-## Our contributors
+### Our contributors <a name='contributors' />
 
 <a href="https://github.com/Mathmate-il/Mathmate-server/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Mathmate-il/Mathmate-server" />
 </a>
 
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## License
 
-This repository is [MIT Licensed](https://github.com/Mathmate-il/Mathmate-server/blob/main/LICENCE)
+[MIT](https://choosealicense.com/licenses/mit/)
