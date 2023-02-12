@@ -1,6 +1,6 @@
 import { BookmarkService } from './bookmark.service';
 import { Body, Controller, Post } from '@nestjs/common';
-import { Bookmark, Question } from '@prisma/client';
+import { Bookmark } from '@prisma/client';
 import { CreateBookMarkDto } from './dto/CreateBookmarkDto';
 
 @Controller('bookmark')

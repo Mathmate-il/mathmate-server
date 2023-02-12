@@ -3,6 +3,7 @@ import { BadRequestError } from './../../../test/shared/errors';
 import {
   BookmarkErrorMessages,
   QuestionErrorMessages,
+  ServerError,
   UserErrorMessages,
 } from './../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
@@ -45,6 +46,8 @@ export class BookmarkService {
         bookmark,
       );
       return newBookmark;
-    } catch (error) {}
+    } catch (error) {
+      throw new BadRequestException(ServerError.BadRequest);
+    }
   }
 }
