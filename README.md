@@ -46,11 +46,6 @@
 
 Node, TypeScript, Prisma, Docker, Jest, PostgreSQL.
 
-## Features
-
-- Create a user with google oauth2.0 on one click + jwt authentication
-- Post math questions and filter by tags
-
 ## Run Locally <a name='run-locally' />
 
 **You must have docker & node installed on your machine**
