@@ -3,5 +3,5 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BookmarkService {
-  constructor(private bookmarkRepository: BookmarkRepository) {}
+  constructor(private readonly bookmarkRepository: BookmarkRepository) {}
 }
