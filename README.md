@@ -48,7 +48,19 @@
 
 ## Tech Stack
 
-Node, TypeScript, Prisma, Docker, Jest, PostgreSQL.
+**Data access layer**
+
+- Prisma as ORM
+- PostgreSQL & pgAdmin
+
+**Testing**
+
+- Jest + Supertest
+
+**Frameworks and languages**
+
+- TypeScript
+- Nest.js
 
 ## Run Locally <a name='run-locally' />
 
