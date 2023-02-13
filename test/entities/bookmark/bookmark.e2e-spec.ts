@@ -16,7 +16,7 @@ describe('BookmarkController', () => {
     await app.init();
   });
 
-  describe('/bookmark', () => {
+  describe('/bookmark/create', () => {
     it('Should return 201 code with created bookmark', async () => {
       jwt = await testService.getJwtFromGoogleClientCredentials(
         app,
