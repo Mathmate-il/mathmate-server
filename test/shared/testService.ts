@@ -95,7 +95,7 @@ export class TestService {
     const response = await request(app.getHttpServer())
       .get('users/me')
       .set('Authorization', `Bearer ${jwt}`);
-    return response.body.id;
+    return response.body;
   }
 }
 

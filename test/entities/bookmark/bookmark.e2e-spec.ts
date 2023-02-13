@@ -1,3 +1,4 @@
+import { BadRequestError } from './../../shared/errors';
 import testService from '../../shared/testService';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
@@ -22,7 +23,6 @@ describe('BookmarkController', () => {
         testService.getGoogleClientCredentials,
       );
       tags = await testService.getAllTags(app);
-      // const userId = await testService.getCurrentUserByJwt(app, jwt);
       const questionToBookmark: Question =
         await testService.createQuestionWithTags(
           app,
@@ -36,7 +36,6 @@ describe('BookmarkController', () => {
           },
           jwt,
         );
-
       const response = await request(app.getHttpServer())
         .post('/bookmark/create')
         .set('Authorization', `Bearer ${jwt}`)
@@ -53,6 +52,19 @@ describe('BookmarkController', () => {
       expect(response.body.owner).toHaveProperty('email');
       expect(response.body.owner).toHaveProperty('name');
       expect(response.body.owner).toHaveProperty('image');
+    });
+
+    it('Should return 400 with not bad request', async () => {
+      jwt = await testService.getJwtFromGoogleClientCredentials(
+        app,
+        testService.getGoogleClientCredentials,
+      );
+      const response = await request(app.getHttpServer())
+        .post('/bookmark/create')
+        .set('Authorization', `Bearer ${jwt}`)
+        .send({ questionId: 'invalid value' });
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual(BadRequestError);
     });
   });
 });
