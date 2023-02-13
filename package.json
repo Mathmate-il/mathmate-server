@@ -8,12 +8,13 @@
   "scripts": {
     "clean:dist": "rimraf dist",
     "db:dev:rm": "docker-compose rm db -s -f -v",
+    "db:dev:stop": "docker-compose stop db",
     "db:dev:up": "docker-compose up db -d",
-    "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 5 && prisma migrate deploy",
+    "db:dev:restart": "npm run db:dev:up && sleep 5 && prisma migrate deploy",
     "db:test:rm": "docker-compose rm db-test -s -f -v",
-    "db:test:up": "docker-compose up db-test -d",
-    "db:test:prisma": "dotenv --e .env.tst -- prisma migrate deploy",
-    "db:test:restart": "npm run db:test:rm && npm run db:test:up && sleep 5 && npm run db:test:prisma",
+    "db:test:up": "dotenv --e .env.test docker-compose up db-test -d",
+    "db:test:prisma": "dotenv --e .env.test -- prisma migrate deploy",
+    "db:test:restart": "dotenv --e .env.test npm run db:test:rm && npm run db:test:up && sleep 5 && npm run db:test:prisma",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -26,7 +27,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv -e .env.test npm run db:test:restart && jest --config ./test/jest-e2e.json",
+    "test:e2e": "dotenv --e .env.test npm run db:test:restart && jest --config ./test/jest-e2e.json",
     "prepare": "husky install"
   },
   "dependencies": {
