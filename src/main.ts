@@ -8,7 +8,8 @@ import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 import config from './config/config.singleton';
-import { DatabaseSeeder } from './database/seeder';
+import { LOGGER_INJECTION_KEY } from './logger/logger.module';
+import databaseSeeder from './database/seeder';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

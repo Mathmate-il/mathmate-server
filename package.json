@@ -39,7 +39,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/throttler": "^3.1.0",
-    "@origranot/ts-logger": "^1.4.0",
+    "@origranot/ts-logger": "^1.7.0",
     "@prisma/client": "^4.8.0",
     "@types/chalk": "^2.2.0",
     "@types/reflect-metadata": "^0.1.0",
