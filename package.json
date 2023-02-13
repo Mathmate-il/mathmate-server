@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "clean:dist": "rimraf dist",
     "db:dev:rm": "docker-compose rm db -s -f -v",
     "db:dev:up": "docker-compose up db -d",
     "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 5 && prisma migrate deploy",

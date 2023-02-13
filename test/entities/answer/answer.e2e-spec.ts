@@ -11,4 +11,8 @@ describe('AnswerController', () => {
     app = module.createNestApplication();
     await app.init();
   });
+
+  it('', () => {
+    return undefined;
+  });
 });

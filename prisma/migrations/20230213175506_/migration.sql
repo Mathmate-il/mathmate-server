@@ -13,7 +13,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Bookmark" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
+    "ownerId" TEXT NOT NULL,
     "questionId" TEXT NOT NULL,
 
     CONSTRAINT "Bookmark_pkey" PRIMARY KEY ("id")
@@ -23,7 +23,7 @@ CREATE TABLE "Bookmark" (
 CREATE TABLE "QuestionRating" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
+    "ownerId" TEXT NOT NULL,
     "questionId" TEXT NOT NULL,
 
     CONSTRAINT "QuestionRating_pkey" PRIMARY KEY ("id")
@@ -44,7 +44,7 @@ CREATE TABLE "Question" (
 CREATE TABLE "AnswerRating" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
+    "ownerId" TEXT NOT NULL,
     "answerId" TEXT NOT NULL,
 
     CONSTRAINT "AnswerRating_pkey" PRIMARY KEY ("id")
@@ -86,13 +86,13 @@ CREATE UNIQUE INDEX "_QuestionToTag_AB_unique" ON "_QuestionToTag"("A", "B");
 CREATE INDEX "_QuestionToTag_B_index" ON "_QuestionToTag"("B");
 
 -- AddForeignKey
-ALTER TABLE "Bookmark" ADD CONSTRAINT "Bookmark_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Bookmark" ADD CONSTRAINT "Bookmark_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Bookmark" ADD CONSTRAINT "Bookmark_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "QuestionRating" ADD CONSTRAINT "QuestionRating_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "QuestionRating" ADD CONSTRAINT "QuestionRating_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "QuestionRating" ADD CONSTRAINT "QuestionRating_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -101,7 +101,7 @@ ALTER TABLE "QuestionRating" ADD CONSTRAINT "QuestionRating_questionId_fkey" FOR
 ALTER TABLE "Question" ADD CONSTRAINT "Question_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AnswerRating" ADD CONSTRAINT "AnswerRating_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AnswerRating" ADD CONSTRAINT "AnswerRating_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AnswerRating" ADD CONSTRAINT "AnswerRating_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

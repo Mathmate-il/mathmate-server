@@ -23,7 +23,6 @@ export class QuestionRepository extends Repository<
   >;
   constructor(prisma: PrismaService) {
     super(prisma, 'question');
-    this.questionServiceExtension = this.prisma.question;
   }
 
   public async createQuestionWithTags(
