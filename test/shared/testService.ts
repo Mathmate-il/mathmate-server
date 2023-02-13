@@ -1,7 +1,11 @@
+import { BookmarkController } from './../../src/services/bookmark/bookmark.controller';
+import { CreateQuestionDto } from './../../src/services/question/dto/CreateQuestionDto';
 import { TagController } from './../../src/services/tag/tag.controller';
 import { PrismaModule } from '../../src/prisma/prisma.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
+require('dotenv').config({
+  path: '.env.test',
+});
 import { INestApplication } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
@@ -12,8 +16,11 @@ import { AuthController } from '@/services/auth/auth.controller';
 import { UserController } from '@/services/user/user.controller';
 import { UserService } from '@/services/user/user.service';
 import { JwtStrategy } from '@/services/auth/utils/auth.strategy';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Tag } from '@prisma/client';
 import { TagService } from '@/services/tag/tag.service';
+import { QuestionController } from '@/services/question/question.controller';
+import { QuestionService } from '@/services/question/question.service';
+import { BookmarkService } from '@/services/bookmark/bookmark.service';
 
 export class TestService {
   constructor(
@@ -35,8 +42,21 @@ export class TestService {
 
   public async createTestModule() {
     return await Test.createTestingModule({
-      controllers: [AuthController, UserController, TagController],
-      providers: [AuthService, UserService, JwtStrategy, TagService],
+      controllers: [
+        AuthController,
+        UserController,
+        TagController,
+        QuestionController,
+        BookmarkController,
+      ],
+      providers: [
+        AuthService,
+        UserService,
+        JwtStrategy,
+        TagService,
+        QuestionService,
+        BookmarkService,
+      ],
       imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();
   }
@@ -49,6 +69,33 @@ export class TestService {
       .post('/auth/login')
       .set('authorization', credentials);
     return response.body.token;
+  }
+
+  public async getAllTags(app: INestApplication): Promise<Tag[]> {
+    const { body } = await request(app.getHttpServer()).get('/tag/all');
+    const tags = body.map((tag: Tag) => {
+      return { id: tag.id };
+    });
+    return tags;
+  }
+
+  public async createQuestionWithTags(
+    app: INestApplication,
+    question: CreateQuestionDto,
+    jwt: string,
+  ) {
+    const response = await request(app.getHttpServer())
+      .post('/question/create')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send(question);
+    return response.body;
+  }
+
+  public async getCurrentUserByJwt(app: INestApplication, jwt: string) {
+    const response = await request(app.getHttpServer())
+      .get('users/me')
+      .set('Authorization', `Bearer ${jwt}`);
+    return response.body;
   }
 }
 

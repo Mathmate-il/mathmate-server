@@ -16,3 +16,15 @@ export enum UpdateErrorMessages {
 export enum TagErrorMessages {
   NotFound = 'One or more provided tags do not exist in the tags table',
 }
+
+export enum UserErrorMessages {
+  NotFound = 'One or more provided users do not exist in the users table',
+}
+
+export enum QuestionErrorMessages {
+  NotFound = 'One or more provided questions do not exist in the questions table',
+}
+
+export enum BookmarkErrorMessages {
+  AlreadyExists = 'The bookmark field is already exists',
+}

@@ -10,11 +10,12 @@ import { TagModule } from './services/tag/tag.module';
 import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './dev/all-exceptions.filter';
-import { AppLoggerModule } from './logger/logger.module';
+import { DatabaseSeeder } from './database/seeder';
+import { AnswerModule } from './services/answer/answer.module';
+import { BookmarkModule } from './services/bookmark/bookmark.module';
 
 @Module({
   imports: [
-    AppLoggerModule,
     AuthModule,
     PrismaModule,
     RepositoriesModule,
@@ -27,12 +28,15 @@ import { AppLoggerModule } from './logger/logger.module';
     UserModule,
     TagModule,
     QuestionModule,
+    AnswerModule,
+    BookmarkModule,
   ],
   providers: [
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
+    DatabaseSeeder,
   ],
 })
 export class AppModule {}

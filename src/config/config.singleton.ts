@@ -20,14 +20,7 @@ export class Configuration {
   }
 
   public get dbUrl() {
-    let url = '';
-    const nodeEnv = process.env.NODE_ENV;
-    if (nodeEnv === 'dev') {
-      url = process.env.TEST_DATABASE_URL;
-    } else if (nodeEnv === 'test') {
-      url = process.env.DATABASE_URL;
-    }
-    return url;
+    return process.env.DATABASE_URL;
   }
 
   public createSwaggerConfiguration(app: INestApplication) {

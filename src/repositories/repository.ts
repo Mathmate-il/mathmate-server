@@ -21,6 +21,11 @@ export class Repository<
     });
   }
 
+  async findFirst(where: WhereInput): Promise<Entity | null> {
+    return this.prisma[this.entity].findFirst({
+      where,
+    });
+  }
   async findMany(params: {
     skip?: number;
     take?: number;

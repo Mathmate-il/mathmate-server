@@ -33,12 +33,17 @@ export class QuestionService {
   public async getAllQuestions() {
     try {
       const questions = await this.questionRepository.findMany({});
+
       if (!questions) {
         throw new NotFoundException(ServerError.NotFound);
       }
       return questions;
     } catch (error) {
-      throw new BadRequestException(ServerError.BadRequest);
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new BadRequestException(ServerError.BadRequest);
+      }
     }
   }
 
@@ -53,12 +58,22 @@ export class QuestionService {
       }
       return questions;
     } catch (error) {
-      throw new BadRequestException(ServerError.BadRequest);
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new BadRequestException(ServerError.BadRequest);
+      }
     }
   }
 
   public async getAllQuestionsByOwner(id: string) {
     try {
+      const user = await this.userRepository.findOne({ id });
+
+      if (!user) {
+        throw new NotFoundException(ServerError.NotFound);
+      }
+
       const questions = await this.questionRepository.findMany({
         where: {
           ownerId: id,
@@ -70,7 +85,11 @@ export class QuestionService {
       }
       return questions;
     } catch (error) {
-      throw new BadRequestException(ServerError.BadRequest);
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new BadRequestException(ServerError.BadRequest);
+      }
     }
   }
 }
