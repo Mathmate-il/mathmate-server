@@ -10,10 +10,11 @@ import 'reflect-metadata';
 import config from './config/config.singleton';
 import { LOGGER_INJECTION_KEY } from './logger/logger.module';
 import databaseSeeder from './database/seeder';
+import { Logger } from '@origranot/ts-logger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const logger = app.get(LOGGER_INJECTION_KEY)
+  const logger = app.get<Logger>(LOGGER_INJECTION_KEY);
   const allExceptionsFilter = new AllExceptionsFilter();
   const publicPath = join(__dirname, '..', 'public');
   const viewsPath = join(__dirname, '..', 'views');
@@ -28,10 +29,11 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   config.createSwaggerConfiguration(app);
   await app.listen(config.appPort);
-  console.log(
+
+  logger.debug(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
   );
-  console.log(
+  logger.debug(
     '\x1b[1;34m 🔑 Google credentials available at http://localhost:3000/dev/google/auth 🔑\x1b[0m',
   );
 

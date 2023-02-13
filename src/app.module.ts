@@ -13,9 +13,11 @@ import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { DatabaseSeeder } from './database/seeder';
 import { AnswerModule } from './services/answer/answer.module';
 import { BookmarkModule } from './services/bookmark/bookmark.module';
+import { AppLoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
+    AppLoggerModule,
     AuthModule,
     PrismaModule,
     RepositoriesModule,

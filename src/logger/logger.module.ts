@@ -6,7 +6,7 @@ export const LOGGER_INJECTION_KEY = 'TS_LOGGER';
 const loggerFactory = {
   provide: LOGGER_INJECTION_KEY,
   useFactory: () => {
-    return new Logger({ timeStamps: true });
+    return new Logger();
   },
 };
 
