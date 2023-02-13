@@ -33,7 +33,7 @@ export class BookmarkService {
       }
 
       const bookmarkExists = await this.bookmarkRepository.findFirst({
-        userId: userId,
+        ownerId: userId,
         questionId: bookmark.questionId,
       });
       if (bookmarkExists) {

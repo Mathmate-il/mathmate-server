@@ -1,3 +1,5 @@
+import { BookmarkController } from './../../src/services/bookmark/bookmark.controller';
+import { CreateQuestionDto } from './../../src/services/question/dto/CreateQuestionDto';
 import { TagController } from './../../src/services/tag/tag.controller';
 import { PrismaModule } from '../../src/prisma/prisma.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -18,6 +20,7 @@ import { Prisma, PrismaClient, Tag } from '@prisma/client';
 import { TagService } from '@/services/tag/tag.service';
 import { QuestionController } from '@/services/question/question.controller';
 import { QuestionService } from '@/services/question/question.service';
+import { BookmarkService } from '@/services/bookmark/bookmark.service';
 
 export class TestService {
   constructor(
@@ -44,6 +47,7 @@ export class TestService {
         UserController,
         TagController,
         QuestionController,
+        BookmarkController,
       ],
       providers: [
         AuthService,
@@ -51,6 +55,7 @@ export class TestService {
         JwtStrategy,
         TagService,
         QuestionService,
+        BookmarkService,
       ],
       imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();
@@ -72,6 +77,25 @@ export class TestService {
       return { id: tag.id };
     });
     return tags;
+  }
+
+  public async createQuestionWithTags(
+    app: INestApplication,
+    question: CreateQuestionDto,
+    jwt: string,
+  ) {
+    const response = await request(app.getHttpServer())
+      .post('/question/create')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send(question);
+    return response.body;
+  }
+
+  public async getCurrentUserByJwt(app: INestApplication, jwt: string) {
+    const response = await request(app.getHttpServer())
+      .get('users/me')
+      .set('Authorization', `Bearer ${jwt}`);
+    return response.body.id;
   }
 }
 

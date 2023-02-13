@@ -28,7 +28,7 @@ export class BookmarkRepository extends Repository<
     try {
       const newBookmark = await this.prisma.bookmark.create({
         data: {
-          user: {
+          owner: {
             connect: {
               id: userId,
             },
@@ -40,8 +40,8 @@ export class BookmarkRepository extends Repository<
           },
         },
         include: {
-          user: true,
           relatedQuestion: true,
+          owner: true,
         },
       });
       return newBookmark;
