@@ -21,13 +21,16 @@ export class BookmarkRepository extends Repository<
     super(prisma, 'bookmark');
   }
 
-  async createBookmark(bookmark: CreateBookMarkDto): Promise<Bookmark> {
+  async createBookmark(
+    userId: string,
+    bookmark: CreateBookMarkDto,
+  ): Promise<Bookmark> {
     try {
       const newBookmark = await this.prisma.bookmark.create({
         data: {
           user: {
             connect: {
-              id: bookmark.userId,
+              id: userId,
             },
           },
           relatedQuestion: {

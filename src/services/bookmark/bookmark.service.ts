@@ -1,11 +1,9 @@
-import { Bookmark } from '@prisma/client';
-import { BadRequestError } from './../../../test/shared/errors';
 import {
   BookmarkErrorMessages,
   QuestionErrorMessages,
   ServerError,
   UserErrorMessages,
-} from './../../helpers/Errors.enums';
+} from '../../helpers/Errors.enums';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { CreateBookMarkDto } from './dto/CreateBookmarkDto';
 import { BookmarkRepository } from '@/repositories/entities/BookmarkRepository';
@@ -21,9 +19,9 @@ export class BookmarkService {
     private readonly questionRepository: QuestionRepository,
   ) {}
 
-  public async create(bookmark: CreateBookMarkDto) {
+  public async create(userId: string, bookmark: CreateBookMarkDto) {
     try {
-      const user = await this.userRepository.findOne({ id: bookmark.userId });
+      const user = await this.userRepository.findOne({ id: userId });
       if (!user) {
         throw new NotFoundException(UserErrorMessages.NotFound);
       }
@@ -35,7 +33,7 @@ export class BookmarkService {
       }
 
       const bookmarkExists = await this.bookmarkRepository.findFirst({
-        userId: bookmark.userId,
+        userId: userId,
         questionId: bookmark.questionId,
       });
       if (bookmarkExists) {
@@ -43,6 +41,7 @@ export class BookmarkService {
       }
 
       const newBookmark = await this.bookmarkRepository.createBookmark(
+        userId,
         bookmark,
       );
       return newBookmark;
