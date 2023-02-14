@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "seed": "npx ts-node ./src/database/index.ts ",
     "cross:sleep": "( sleep 5 || timeout /t 4)",
     "test:env": "dotenv --e .env.test -- ",
     "clean:dist": "rimraf dist",
@@ -22,7 +21,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "npm run db:dev:restart && concurrently  \"nest start --watch\" \"npm run seed\"",
+    "start:dev": "npm run db:dev:restart && npx prisma db seed && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -30,8 +29,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv --e .env.test -- npm run db:dev:stop && npm run db:test:restart && npm run seed && npm run cross:sleep && npm run test:env --  jest --config ./test/jest-e2e.json",
+    "test:e2e": "dotenv --e .env.test -- npm run db:dev:stop && npm run db:test:restart && npm run cross:sleep && npm run test:env --  jest --config ./test/jest-e2e.json",
     "prepare": "husky install"
+  },
+  "prisma": {
+    "seed": "ts-node ./prisma/seed/seed.ts"
   },
   "dependencies": {
     "@nestjs/class-validator": "^0.13.4",

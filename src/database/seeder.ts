@@ -1,6 +1,6 @@
 import config from '@/config/config.singleton';
 import { PrismaClient } from '@prisma/client';
-import { mathSubjects } from './objects';
+import { mathSubjects } from '../../prisma/seed/objects';
 export class DatabaseSeeder {
   constructor(
     private readonly prismaService = new PrismaClient({

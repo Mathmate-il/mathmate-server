@@ -21,6 +21,8 @@ import { TagService } from '@/services/tag/tag.service';
 import { QuestionController } from '@/services/question/question.controller';
 import { QuestionService } from '@/services/question/question.service';
 import { BookmarkService } from '@/services/bookmark/bookmark.service';
+import { DatabaseSeeder } from '@/database/seeder';
+import { Configuration } from '@/config/config.singleton';
 
 export class TestService {
   constructor(
@@ -56,6 +58,8 @@ export class TestService {
         TagService,
         QuestionService,
         BookmarkService,
+        DatabaseSeeder,
+        Configuration,
       ],
       imports: [RepositoriesModule, PrismaModule, JwtModule],
     }).compile();

@@ -28,7 +28,6 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   config.createSwaggerConfiguration(app);
   await app.listen(config.appPort);
-  // seeder.seedTagTable();
   logger.info(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
   );

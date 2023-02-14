@@ -1,5 +1,3 @@
-import { ConfigModule } from '@nestjs/config';
-import config from '@/config/config.singleton';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from './prisma/prisma.module';
 import { Module } from '@nestjs/common';
@@ -19,7 +17,6 @@ import { AppLoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: ['.env.test'] }),
     AppLoggerModule,
     AuthModule,
     PrismaModule,

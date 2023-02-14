@@ -54,7 +54,7 @@ describe('BookmarkController', () => {
       expect(response.body.owner).toHaveProperty('image');
     });
 
-    it('Should return 400 with not bad request', async () => {
+    it('Should return 401 with not bad request', async () => {
       jwt = await testService.getJwtFromGoogleClientCredentials(
         app,
         testService.getGoogleClientCredentials,
