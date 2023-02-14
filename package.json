@@ -6,16 +6,16 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "cross:sleep": "( sleep 5 || timeout /t 4)",
+    "cross:sleep": "( sleep 4 || timeout /t 4)",
     "test:env": "dotenv --e .env.test -- ",
     "clean:dist": "rimraf dist",
     "db:dev:rm": "docker-compose rm db -s -f -v",
     "db:dev:stop": "docker-compose stop db",
     "db:dev:up": "docker-compose up db -d",
-    "db:dev:restart": "npm run db:dev:up && npm run cross:sleep && prisma migrate deploy",
+    "db:dev:restart": "npm run db:dev:up && npm run cross:sleep && prisma migrate dev",
     "db:test:rm": "docker-compose rm db-test -s -f -v",
     "db:test:up": "npm run test:env --  docker-compose up db-test -d",
-    "db:test:prisma": "npm run test:env --  prisma migrate deploy",
+    "db:test:prisma": "npm run test:env --  prisma migrate dev",
     "db:test:restart": "npm run test:env --  npm run db:test:rm && npm run db:test:up && npm run cross:sleep  && npm run db:test:prisma",
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -29,7 +29,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv --e .env.test -- npm run db:dev:stop && npm run db:test:restart && npm run cross:sleep && npm run test:env --  jest --config ./test/jest-e2e.json",
+    "test:e2e": "dotenv --e .env.test -- npm run db:dev:stop && npm run db:test:restart && dotenv --e .env.test -- npx prisma db seed &&npm run cross:sleep && npm run test:env --  jest --config ./test/jest-e2e.json",
     "prepare": "husky install"
   },
   "prisma": {

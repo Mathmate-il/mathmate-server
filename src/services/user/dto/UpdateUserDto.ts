@@ -3,26 +3,27 @@ import { IsOptional, IsDate, IsEmpty } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
+  @ApiProperty()
   @IsOptional()
   @IsEmpty({ message: UpdateErrorMessages.EmailNotUpdatable })
-  @ApiProperty()
   email?: string;
 
+  @ApiProperty()
   @IsOptional()
   image?: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsEmpty({ message: UpdateErrorMessages.IdNotUpdatable })
-  @ApiProperty()
   id?: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsDate()
   @IsEmpty({ message: UpdateErrorMessages.CreatedAtNotUpdatable })
-  @ApiProperty()
   createdAt?: Date;
 
-  @IsOptional()
   @ApiProperty()
+  @IsOptional()
   name?: string;
 }

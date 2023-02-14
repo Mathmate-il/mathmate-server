@@ -1,6 +1,11 @@
 import { BadRequestError } from './../../shared/errors';
-import { UserInvalidJwtError } from './utils/user.errors';
-import { INestApplication } from '@nestjs/common';
+import {
+  UserInvalidJwtError,
+  UserInvalidNotUpdatableDateError,
+  UserInvalidNotUpdatableEmailError,
+  UserInvalidNotUpdatableIdError,
+} from './utils/user.errors';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import testService from '../../shared/testService';
@@ -19,6 +24,8 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
   });
 
@@ -59,7 +66,7 @@ describe('UserController', () => {
         .set('authorization', `Bearer ${jwt}`)
         .send(invalidUpdateUserDtoWithCreatedAt);
       expect(400);
-      expect(response.body).toEqual(BadRequestError);
+      expect(response.body).toEqual(UserInvalidNotUpdatableDateError);
     });
 
     it('should return 400 with bad request message for email updating', async () => {
@@ -69,7 +76,7 @@ describe('UserController', () => {
         .set('authorization', `Bearer ${jwt}`)
         .send(invalidUpdateUserDtoWithEmail);
       expect(400);
-      expect(response.body).toEqual(BadRequestError);
+      expect(response.body).toEqual(UserInvalidNotUpdatableEmailError);
     });
 
     it('should return 400 with bad request message for id updating', async () => {
@@ -79,7 +86,7 @@ describe('UserController', () => {
         .set('authorization', `Bearer ${jwt}`)
         .send(invalidUpdateUserDtoWithId);
       expect(400);
-      expect(response.body).toEqual(BadRequestError);
+      expect(response.body).toEqual(UserInvalidNotUpdatableIdError);
     });
 
     it('should return 401 Unauthorized error when the authorization header is invalid', async () => {
