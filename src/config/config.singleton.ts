@@ -23,6 +23,10 @@ export class Configuration {
     return process.env.DATABASE_URL;
   }
 
+  public get nodeEnv() {
+    return process.env.NODE_ENV || 'development';
+  }
+
   public createSwaggerConfiguration(app: INestApplication) {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('Mathmate API')

@@ -1,3 +1,4 @@
+import config from '@/config/config.singleton';
 import { TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import testService from '../../shared/testService';

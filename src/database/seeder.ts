@@ -1,7 +1,16 @@
+import config from '@/config/config.singleton';
 import { PrismaClient } from '@prisma/client';
 import { mathSubjects } from './objects';
 export class DatabaseSeeder {
-  constructor(private readonly prismaService = new PrismaClient()) {}
+  constructor(
+    private readonly prismaService = new PrismaClient({
+      datasources: {
+        db: {
+          url: config.dbUrl,
+        },
+      },
+    }),
+  ) {}
 
   public async seedTagTable() {
     for (const subject of mathSubjects) {

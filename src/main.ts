@@ -8,7 +8,6 @@ import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 import config from './config/config.singleton';
-import { DatabaseSeeder } from './database/seeder';
 import { LOGGER_INJECTION_KEY } from './logger/logger.module';
 import { Logger } from '@origranot/ts-logger';
 
@@ -29,12 +28,11 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   config.createSwaggerConfiguration(app);
   await app.listen(config.appPort);
-  const seeder = app.get(DatabaseSeeder);
-  seeder.seedTagTable();
-  logger.debug(
+  // seeder.seedTagTable();
+  logger.info(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
   );
-  logger.debug(
+  logger.info(
     '\x1b[1;34m 🔑 Google credentials available at http://localhost:3000/dev/google/auth 🔑\x1b[0m',
   );
 }
