@@ -21,10 +21,6 @@ const inValidTagsDto = {
   ],
 };
 
-const validOwnerIdDto: { id: string } = {
-  id: '',
-};
-
 const inValidOwnerIdDto = {
   id: '966ebaee-2c67-4fa6-93fc-39201973821738',
 };
@@ -34,6 +30,5 @@ export {
   validCreateQuestionDto,
   validTagsDto,
   inValidTagsDto,
-  validOwnerIdDto,
   inValidOwnerIdDto,
 };

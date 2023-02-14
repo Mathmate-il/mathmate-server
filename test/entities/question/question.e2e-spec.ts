@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import testService from '../../shared/testService';
 import * as request from 'supertest';
@@ -7,19 +7,21 @@ import {
   validCreateQuestionDto,
   inValidTagsDto,
   validTagsDto,
-  validOwnerIdDto,
   inValidOwnerIdDto,
 } from './utils/question.cases';
 import { NotFoundTagError, NotFoundError } from './utils/question.errors';
 import { Tag } from '@prisma/client';
 
 describe('QuestionController', () => {
+  let validOwnerIdDto = '';
   let app: INestApplication;
   let jwt: string;
   let tags: Tag[];
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
   });
 
@@ -36,10 +38,10 @@ describe('QuestionController', () => {
         .post('/question/create')
         .set('Authorization', `Bearer ${jwt}`)
         .send(validCreateQuestionDto);
-      validOwnerIdDto.id = response.body.ownerId;
       expect(response.status).toBe(201);
       expect(response.body.title).toMatch(validCreateQuestionDto.title);
       expect(typeof response.body.ownerId).toBe('string');
+      validOwnerIdDto = response.body.ownerId;
     });
 
     it('should return 404 Not Found if input is invalid', async () => {
@@ -83,7 +85,7 @@ describe('QuestionController', () => {
     it('Should return all the questions filtered by OwnerId', async () => {
       const response = await request(app.getHttpServer())
         .get('/question/all/filterBy/owner')
-        .send(validOwnerIdDto);
+        .send({ id: validOwnerIdDto });
       expect(response.status).toBe(200);
       expect(response.body.length).toBeGreaterThan(0);
     });

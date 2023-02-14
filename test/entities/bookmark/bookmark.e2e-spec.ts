@@ -1,6 +1,6 @@
-import { BadRequestError } from './../../shared/errors';
+import { BookmarkInvalidQuestionIdError } from './utils/errors';
 import testService from '../../shared/testService';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { Question, Tag } from '@prisma/client';
@@ -13,6 +13,8 @@ describe('BookmarkController', () => {
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
   });
 
@@ -64,7 +66,7 @@ describe('BookmarkController', () => {
         .set('Authorization', `Bearer ${jwt}`)
         .send({ questionId: 'invalid value' });
       expect(response.status).toBe(400);
-      expect(response.body).toEqual(BadRequestError);
+      expect(response.body).toEqual(BookmarkInvalidQuestionIdError);
     });
   });
 });

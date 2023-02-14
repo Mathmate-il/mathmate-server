@@ -1,5 +1,5 @@
 import testService from '../../shared/testService';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { UnauthorizedError } from './utils/auth.errors';
 import * as request from 'supertest';
@@ -10,6 +10,8 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await testService.createTestModule();
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
   });
 

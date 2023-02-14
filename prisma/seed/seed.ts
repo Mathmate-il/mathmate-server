@@ -1,17 +1,23 @@
 import { PrismaClient } from '@prisma/client';
 import { mathSubjects } from './objects';
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 async function main() {
-  //   for (const subject of mathSubjects) {
-  //     const existingTag = await prisma.tag.findFirst({
-  //       where: { tagName: subject },
-  //     });
-  //     if (!existingTag) {
-  //       await prisma.tag.create({
-  //         data: { tagName: subject },
-  //       });
-  //     }
-  //   }
+  for (const subject of mathSubjects) {
+    const existingTag = await prisma.tag.findFirst({
+      where: { tagName: subject },
+    });
+    if (!existingTag) {
+      await prisma.tag.create({
+        data: { tagName: subject },
+      });
+    }
+  }
 }
 
 main()

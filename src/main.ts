@@ -21,7 +21,7 @@ async function bootstrap() {
   app.use(bodyParser.json());
   app.use(allExceptionsFilter.writeApiRequestsLogToFile());
   app.use(helmet({ contentSecurityPolicy: false }));
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({ origin: '*' });
   app.useStaticAssets(publicPath);
   app.setBaseViewsDir(viewsPath);
