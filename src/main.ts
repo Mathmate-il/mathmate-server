@@ -27,7 +27,7 @@ async function bootstrap() {
   app.setBaseViewsDir(viewsPath);
   app.setViewEngine('hbs');
   config.createSwaggerConfiguration(app);
-  await app.listen(config.appPort);
+  await app.listen(config.appPort, '0.0.0.0');
   logger.info(
     '\x1b[1;34m 🚀 Swagger UI available at http://localhost:3000/swagger 🚀\x1b[0m',
   );
