@@ -4,7 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import * as path from 'path';
 import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './dev/all-exceptions.filter';
+// import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import * as bodyParser from 'body-parser';
 import 'reflect-metadata';
 import config from './config/config.singleton';
@@ -13,13 +13,13 @@ import { Logger } from '@origranot/ts-logger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const allExceptionsFilter = new AllExceptionsFilter();
+  // const allExceptionsFilter = new AllExceptionsFilter();
   const publicPath = path.join(__dirname, '..', 'public');
   const viewsPath = path.join(__dirname, '..', 'views');
   const logger = app.get<Logger>(LOGGER_INJECTION_KEY);
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(allExceptionsFilter.writeApiRequestsLogToFile());
+  // app.use(allExceptionsFilter.writeApiRequestsLogToFile());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({ origin: '*' });
