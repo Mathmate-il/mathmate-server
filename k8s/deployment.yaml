@@ -21,10 +21,29 @@ spec:
             - name: GOOGLE_CLIENT_SECRET
               value: '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'
             - name: DATABASE_URL
-              value: 'postgresql://postgres:21780Amit@localhost:5434/mathmate-dev?schema=public'
+              value: 'postgresql://postgres:21780Amit@postgres:5432/mathmate-dev?schema=public'
             - name: JWT_SECRET
               value: '1234'
             - name: POSTGRES_PASSWORD
               value: '21780Amit'
           ports:
             - containerPort: 3000
+        - name: postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: mathmate-dev
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: '21780Amit'
+          volumeMounts:
+            - name: postgres-persistent-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: mathmate-dev
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: postgres-persistent-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
