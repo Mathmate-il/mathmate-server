@@ -58,6 +58,7 @@ export class QuestionRepository extends Repository<
       where: {
         tags: { some: { id: { in: tags.map((tag) => tag.id) } } },
       },
+      include: { tags: true },
     });
 
     return questions;

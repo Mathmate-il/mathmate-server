@@ -32,6 +32,7 @@ export class Repository<
     cursor?: WhereUniqueInput;
     where?: WhereInput;
     orderBy?: OrderByWithRelationInput;
+    include?: any;
   }): Promise<Entity[]> {
     return this.prisma[this.entity].findMany({
       skip: params.skip,
@@ -39,6 +40,7 @@ export class Repository<
       cursor: params.cursor,
       where: params.where,
       orderBy: params.orderBy,
+      include: params.include,
     });
   }
 
