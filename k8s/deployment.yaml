@@ -17,33 +17,14 @@ spec:
           image: mathmateil/mathmate-api:latest
           env:
             - name: GOOGLE_CLIENT_ID
-              value: '1086449319336-ssqgrp6v1puekalgube3506d3i2hci0g.apps.googleusercontent.com'
+              value: 'take from env'
             - name: GOOGLE_CLIENT_SECRET
-              value: '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'
+              value: 'take from env'
             - name: DATABASE_URL
-              value: 'postgresql://postgres:21780Amit@postgres:5432/mathmate-dev?schema=public'
+              value: 'take from env'
             - name: JWT_SECRET
-              value: '1234'
+              value: 'take from env'
             - name: POSTGRES_PASSWORD
-              value: '21780Amit'
+              value: 'take from env'
           ports:
             - containerPort: 3000
-        - name: postgres
-          image: postgres:latest
-          env:
-            - name: POSTGRES_DB
-              value: mathmate-dev
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
-              value: '21780Amit'
-          volumeMounts:
-            - name: postgres-persistent-storage
-              mountPath: /var/lib/postgresql/data
-              subPath: mathmate-dev
-          ports:
-            - containerPort: 5432
-      volumes:
-        - name: postgres-persistent-storage
-          persistentVolumeClaim:
-            claimName: postgres-pvc
