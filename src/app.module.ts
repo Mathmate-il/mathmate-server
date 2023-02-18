@@ -9,7 +9,6 @@ import { DevModule } from './dev/dev.module';
 import { TagModule } from './services/tag/tag.module';
 import { QuestionModule } from './services/question/question.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceptionsFilter } from './dev/all-exceptions.filter';
 import { DatabaseSeeder } from './database/seeder';
 import { AnswerModule } from './services/answer/answer.module';
 import { BookmarkModule } from './services/bookmark/bookmark.module';
@@ -33,12 +32,6 @@ import { AppLoggerModule } from './logger/logger.module';
     AnswerModule,
     BookmarkModule,
   ],
-  providers: [
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
-    DatabaseSeeder,
-  ],
+  providers: [DatabaseSeeder],
 })
 export class AppModule {}
