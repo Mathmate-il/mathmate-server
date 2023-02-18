@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mathmate-api
+spec:
+  selector:
+    matchLabels:
+      app: mathmate-api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mathmate-api
+    spec:
+      containers:
+        - name: mathmate-api
+          image: mathmateil/mathmate-api:latest
+          env:
+            - name: GOOGLE_CLIENT_ID
+              value: 'take from env'
+            - name: GOOGLE_CLIENT_SECRET
+              value: 'take from env'
+            - name: DATABASE_URL
+              value: 'take from env'
+            - name: JWT_SECRET
+              value: 'take from env'
+            - name: POSTGRES_PASSWORD
+              value: 'take from env'
+          ports:
+            - containerPort: 3000
