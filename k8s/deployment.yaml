@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mathmate-api
+spec:
+  selector:
+    matchLabels:
+      app: mathmate-api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mathmate-api
+    spec:
+      containers:
+        - name: mathmate-api
+          image: mathmateil/mathmate-api:latest
+          env:
+            - name: GOOGLE_CLIENT_ID
+              value: '1086449319336-ssqgrp6v1puekalgube3506d3i2hci0g.apps.googleusercontent.com'
+            - name: GOOGLE_CLIENT_SECRET
+              value: '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'
+            - name: DATABASE_URL
+              value: 'postgresql://postgres:21780Amit@localhost:5434/mathmate-dev?schema=public'
+            - name: JWT_SECRET
+              value: '1234'
+            - name: POSTGRES_PASSWORD
+              value: '21780Amit'
+          ports:
+            - containerPort: 3000
